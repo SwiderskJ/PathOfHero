@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <header class="page-header">
+            <a href="/" class="logo">PathOfHero</a>
+            <a href="/about/">about</a>
+            <a href="/team/">team</a>
+            <a href="/login/">login</a>
+    </header>
+    <form method="post">{% csrf_token %}
+        <p>Registration</p>
+     {{ form }}
+        <input type="submit" value="Register account">
+    </form>
+     <footer>
+        <p>&copy; Medieval Adventure Game 2023</p>
+    </footer>
+</body>
+</html>

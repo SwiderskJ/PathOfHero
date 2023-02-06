@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <ul>
+        {% if number == 0 %}
+            Uzupełnij pancerze
+        {% else %}
+            Armors:
+            {% for armor in armors %}
+                <li> Name: {{ armor.name }} Armor description: {{ armor.description }}
+                <a href="/armor_details/{{ armor.id }}/" class="details-button">Details</a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+
+
+</form>
+{% endblock content %}

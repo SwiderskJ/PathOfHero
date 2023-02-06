@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+Main site
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+ tresc strony głownej
+</form>
+{% endblock content %}

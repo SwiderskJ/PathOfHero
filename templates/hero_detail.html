@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+   <ul>
+       <li>Name: {{ hero.name }}</li>
+       <li>Race: {{ hero_race }}</li>
+       <li>Experience_points: {{ hero.experience_points }}</li>
+       <li>Level: {{ hero.level }}</li>
+       <li>Health_points: {{ hero.health_points }}/{{ hero.max_health_points }}</li>
+       <li>Strength: {{ hero.strength }}</li>
+       <li>Dexterity: {{ hero.dexterity}}</li>
+       <li>Wisdom: {{ hero.wisdom }}</li>
+       <li>Endurance: {{ hero.endurance }}</li>
+   </ul>
+</form>
+{% endblock content %}
