@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+   <ul>
+       <li>Name: {{ weapon.name }}</li>
+       <li>Desription: {{ weapon.description }}</li>
+       <li>Damage bonus: {{ weapon.damage_bonus}}</li>
+       <li>Defence bonus: {{ weapon.defence_bonus }}</li>
+       <li>Attack bonus: {{ weapon.attack_bonus }}</li>
+       <li>Price: {{ weapon.price }}</li>
+       <a href="">Buy</a>
+   </ul>
+</form>
+{% endblock content %}

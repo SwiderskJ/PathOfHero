@@ -18,7 +18,9 @@ from django.urls import path
 
 from PathOfHero import settings
 from main.views import DemoPageView, LoginView, UserCreateView, LogoutView, MainView, HeroListView, CreateHeroView
-from main.views import HeroDetailView, ArmoryListView, SmithListView, Login2View, AddArmorView
+from main.views import HeroDetailView, ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView
+from main.views import ArmorDetailView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,9 +33,9 @@ urlpatterns = [
     path('hero_details/<int:hero_id>/', HeroDetailView.as_view()),
     path('create_hero/', CreateHeroView.as_view()),
     path('armory/', ArmoryListView.as_view()),
-    path('smith/', SmithListView.as_view()),
-    path('login2/', Login2View.as_view()),
+    path('armor_details/<int:armor_id>/', ArmorDetailView.as_view()),
     path('add_armor/', AddArmorView.as_view()),
-
+    path('smith/', SmithListView.as_view()),
+    path('weapon_details/<int:weapon_id>/', WeaponDetailView.as_view()),
+    path('add_weapon/', AddWeaponView.as_view()),
 ]
-

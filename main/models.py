@@ -42,7 +42,7 @@ class Weapon(models.Model):
     price = models.IntegerField()
 
 
-
+# request.
 # class HeroEquipment(models.Model):
 #     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
 #     armor = models.ForeignKey(Armor, on_delete=models.CASCADE)
