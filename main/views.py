@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 from main.forms import LoginForm, UserCreateForm, CreateHeroForm, ArmorAddForm, WeaponAddForm
@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from main.models import HERO_RACE
 from main.models import Hero, Armor, Weapon
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -16,7 +18,8 @@ class DemoPageView(View):
         return render(request, 'demopage.html')
 
 
-class MainView(View):
+class MainView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         return render(request, 'main.html')
@@ -66,7 +69,9 @@ class LogoutView(View):
         )
 
 
-class UserCreateView(View):
+class UserCreateView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+
     def get(self, request):
         form = UserCreateForm()
         return render(
@@ -94,7 +99,8 @@ class UserCreateView(View):
             return redirect('/login/')
 
 
-class HeroListView(View):
+class HeroListView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
@@ -102,7 +108,8 @@ class HeroListView(View):
         return render(request, 'hero_list.html', {'hero_list': hero_list, 'number': hero_list_count})
 
 
-class CreateHeroView(View):
+class CreateHeroView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         form = CreateHeroForm()
@@ -129,7 +136,8 @@ class CreateHeroView(View):
             return redirect('/hero_list/')
 
 
-class HeroDetailView(View):
+class HeroDetailView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request, hero_id):
         hero = Hero.objects.get(id=hero_id)
@@ -137,7 +145,8 @@ class HeroDetailView(View):
         return render(request, 'hero_detail.html', {'hero': hero, 'hero_race': hero_race})
 
 
-class ArmoryListView(View):
+class ArmoryListView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         armors = Armor.objects.all().order_by('price', 'defence_bonus')
@@ -145,14 +154,16 @@ class ArmoryListView(View):
         return render(request, 'armor_list.html', {'armors': armors, 'armors_number': armors_number})
 
 
-class ArmorDetailView(View):
+class ArmorDetailView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request, armor_id):
         armor = Armor.objects.get(id=armor_id)
         return render(request, 'armor_detail.html', {'armor': armor})
 
 
-class AddArmorView(View):
+class AddArmorView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         form = ArmorAddForm()
@@ -174,7 +185,8 @@ class AddArmorView(View):
             return redirect('/armory/')
 
 
-class SmithListView(View):
+class SmithListView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         weapons = Weapon.objects.all().order_by('price', 'attack_bonus')
@@ -182,14 +194,16 @@ class SmithListView(View):
         return render(request, 'smith_list.html', {'weapons': weapons, 'weapons_number': weapons_number})
 
 
-class WeaponDetailView(View):
+class WeaponDetailView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request, weapon_id):
         weapon = Weapon.objects.get(id=weapon_id)
         return render(request, 'weapon_detail.html', {'weapon': weapon})
 
 
-class AddWeaponView(View):
+class AddWeaponView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request):
         form = WeaponAddForm()
