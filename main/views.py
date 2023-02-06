@@ -145,6 +145,13 @@ class ArmoryListView(View):
         return render(request, 'armor_list.html', {'armors': armors, 'armors_number': armors_number})
 
 
+class ArmorDetailView(View):
+
+    def get(self, request, armor_id):
+        armor = Armor.objects.get(id=armor_id)
+        return render(request, 'armor_detail.html', {'armor': armor})
+
+
 class AddArmorView(View):
 
     def get(self, request):
@@ -167,23 +174,39 @@ class AddArmorView(View):
             return redirect('/armory/')
 
 
+class SmithListView(View):
+
+    def get(self, request):
+        weapons = Weapon.objects.all().order_by('price', 'attack_bonus')
+        weapons_number = weapons.count()
+        return render(request, 'smith_list.html', {'weapons': weapons, 'weapons_number': weapons_number})
+
+
+class WeaponDetailView(View):
+
+    def get(self, request, weapon_id):
+        weapon = Weapon.objects.get(id=weapon_id)
+        return render(request, 'weapon_detail.html', {'weapon': weapon})
+
+
 class AddWeaponView(View):
 
     def get(self, request):
-        form = ArmorAddForm()
-        return render(request, 'add_armor.html', {'form': form})
+        form = WeaponAddForm()
+        return render(request, 'add_weapon.html', {'form': form})
 
     def post(self, request):
-        form = ArmorAddForm(request.POST)
+        form = WeaponAddForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
-            Armor.objects.create(
+            Weapon.objects.create(
                 name=data.get('name'),
                 description=data.get('description'),
                 defence_bonus=data.get('defence_bonus'),
                 attack_bonus=data.get('attack_bonus'),
-                damage_reduction=data.get('damage_reduction'),
+                damage_bonus=data.get('damage_bonus'),
                 price=data.get('price')
             )
 
-            return redirect('/armory/')
+            return redirect('/smith/')

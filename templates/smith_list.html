@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+Add weapon
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <ul>
+        {% if weapons_number == 0 %}
+            Uzupełnij bronie
+        {% else %}
+            Armors:
+            {% for weapon in weapons %}
+                <ul>
+                    <li>Name: {{ weapon.name }}</li>
+                    <li>Weapon description: {{ weapon.description }}</li>
+                    <li>Price: {{ weapon.price }}
+                    <a href="/weapon_details/{{ weapon.id }}/" class="details-button">Details</a></li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+    </ul>
+
+
+</form>
+{% endblock content %}
