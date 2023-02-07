@@ -6,14 +6,14 @@
 </head>
 <body>
     <header class="page-header">
-            <a href="/" class="logo">PathOfHero</a>
-            <a href="/about/">about</a>
-            <a href="/team/">team</a>
-            <a href="/login/">login</a>
+            <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
+            <a href={% url 'about' %}>about</a>
+            <a href={% url 'team' %}>team</a>
+            <a href={% url 'login' %}>login</a>
     </header>
     <form method="post">{% csrf_token %}
         Log out
-        <p><a href="/login/">Log in</a></p>
+        <p><a href={% url 'login' %}>Log in</a></p>
     </form>
     <footer>
         <p>&copy; Medieval Adventure Game 2023</p>
