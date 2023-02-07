@@ -13,6 +13,8 @@ Login
             {% for hero in hero_list %}
                 <li> Name: {{ hero.name }} Level: {{ hero.level }} {{ hero.health_points }}/{{ hero.max_health_points }}
                 <a href="/hero_details/{{ hero.id }}/" class="details-button">Details</a></li>
+{#                <input type="number" value='{{hero.id}}' name="heroes" hidden >#}
+{#                <input type="submit" value="Select as active">#}
             {% endfor %}
         {% endif %}
     </ul>

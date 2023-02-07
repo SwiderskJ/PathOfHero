@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class DemoPageView(View):
 
     def get(self, request):
-        return render(request, 'demopage.html')
+        return render(request, 'demo_page.html')
 
 
 class MainView(LoginRequiredMixin, View):
@@ -45,16 +45,16 @@ class LoginView(View):
             username = data.get('username')
             password = data.get('password')
 
-            # uwierzytelnienie
+            # authentication
             user = authenticate(
                 username=username,
                 password=password
             )
 
             if user:
-                # logowanie
+                # log in
                 login(request, user)
-                return redirect('/main/')
+                return redirect('/hero_list/')
             else:
                 return HttpResponse(f"Błąd uwierzytelnienia. Podano nieprawidłowe poświadczenia.")
 
@@ -69,8 +69,7 @@ class LogoutView(View):
         )
 
 
-class UserCreateView(LoginRequiredMixin, View):
-    login_url = reverse_lazy('login')
+class UserCreateView(View):
 
     def get(self, request):
         form = UserCreateForm()
@@ -95,7 +94,6 @@ class UserCreateView(LoginRequiredMixin, View):
                 last_name=data.get('last_name'),
                 email=data.get('email')
             )
-
             return redirect('/login/')
 
 
@@ -121,7 +119,7 @@ class CreateHeroView(LoginRequiredMixin, View):
             data = form.cleaned_data
             max_health_points = data.get('endurance')*4
             health_points = max_health_points
-            Hero.objects.create(
+            hero = Hero.objects.create(
                 name=data.get('name'),
                 race=data.get('race'),
                 strength=data.get('strength'),
@@ -132,7 +130,7 @@ class CreateHeroView(LoginRequiredMixin, View):
                 health_points=health_points,
                 user=request.user
             )
-
+            request.session['actual_hero'] = hero.id
             return redirect('/hero_list/')
 
 
@@ -144,22 +142,43 @@ class HeroDetailView(LoginRequiredMixin, View):
         hero_race = HERO_RACE[hero.race-1][1]
         return render(request, 'hero_detail.html', {'hero': hero, 'hero_race': hero_race})
 
+    def post(self, request, hero_id):
+        request.session['actual_hero'] = hero_id
+        return redirect('/main/')
+
 
 class ArmoryListView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
+        hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
+        if request.session.get('actual_hero') is None:
+            return render(request, 'list_no_hero.html', {'hero_list': hero_list})
         armors = Armor.objects.all().order_by('price', 'defence_bonus')
         armors_number = armors.count()
         return render(request, 'armor_list.html', {'armors': armors, 'armors_number': armors_number})
+
+    def post(self, request):
+        hero_id = request.POST.get('hero')
+        request.session['actual_hero'] = hero_id
+        return redirect("/armory/")
 
 
 class ArmorDetailView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request, armor_id):
+        hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
+        if request.session.get('actual_hero') is None:
+            return render(request, 'list_no_hero.html', {'hero_list': hero_list})
         armor = Armor.objects.get(id=armor_id)
         return render(request, 'armor_detail.html', {'armor': armor})
+
+    def post(self, request, armor_id):
+        hero_id = request.POST.get('hero')
+        request.session['actual_hero'] = hero_id
+        return redirect(f"/armor_details/{armor_id}/")
+
 
 
 class AddArmorView(LoginRequiredMixin, View):
@@ -189,17 +208,33 @@ class SmithListView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
+        hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
+        if request.session.get('actual_hero') is None:
+            return render(request, 'list_no_hero.html', {'hero_list': hero_list})
         weapons = Weapon.objects.all().order_by('price', 'attack_bonus')
         weapons_number = weapons.count()
         return render(request, 'smith_list.html', {'weapons': weapons, 'weapons_number': weapons_number})
+
+    def post(self, request):
+        hero_id = request.POST.get('hero')
+        request.session['actual_hero'] = hero_id
+        return redirect("/smith/")
 
 
 class WeaponDetailView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request, weapon_id):
+        hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
+        if request.session.get('actual_hero') is None:
+            return render(request, 'list_no_hero.html', {'hero_list': hero_list})
         weapon = Weapon.objects.get(id=weapon_id)
         return render(request, 'weapon_detail.html', {'weapon': weapon})
+
+    def post(self, request, weapon_id):
+        hero_id = request.POST.get('hero')
+        request.session['actual_hero'] = hero_id
+        return redirect(f"/weapon_details/{weapon_id}/")
 
 
 class AddWeaponView(LoginRequiredMixin, View):
