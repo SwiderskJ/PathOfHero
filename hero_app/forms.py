@@ -1,19 +1,5 @@
 from django import forms
-from main.models import HERO_RACE
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
-class UserCreateForm(forms.Form):
-    login = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
+from hero_app.models import HERO_RACE
 
 
 class CreateHeroForm(forms.Form):
@@ -32,12 +18,14 @@ class ArmorAddForm(forms.Form):
     attack_bonus = forms.IntegerField()
     damage_reduction = forms.IntegerField()
     price = forms.IntegerField()
+    diamonds = forms.IntegerField()
 
 
 class WeaponAddForm(forms.Form):
     name = forms.CharField()
-    description = forms.CharField()  #pytanie o format
+    description = forms.CharField()  # ask about format
     defence_bonus = forms.IntegerField()
     attack_bonus = forms.IntegerField()
     damage_bonus = forms.IntegerField()
     price = forms.IntegerField()
+    diamonds = forms.IntegerField()
