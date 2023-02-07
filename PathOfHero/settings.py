@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'PathOfHero.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pathofhero',
+        'NAME': 'PathOfHero_database',
         'HOST': 'localhost',
         'PASSWORD': 'coderslab',
         'USER': 'postgres',
