@@ -1,8 +1,6 @@
-from audioop import reverse
-
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login, logout
 from user_app.models import UserCurrency
 from user_app.forms import LoginForm, UserCreateForm
@@ -94,3 +92,19 @@ class UserCreateView(View):
                 user=user
             )
             return redirect(reverse('login'))
+
+
+class AboutView(View):
+    pass
+
+
+class TeamView(View):
+    pass
+
+
+class BankAccountView(View):
+    pass
+
+
+class SettingsView(View):
+    pass

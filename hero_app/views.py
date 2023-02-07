@@ -1,16 +1,11 @@
-from audioop import reverse
-
 from django.shortcuts import render, redirect
 from django.views import View
 from hero_app.forms import CreateHeroForm, ArmorAddForm, WeaponAddForm
 from hero_app.models import HERO_RACE
 from hero_app.models import Hero, Armor, Weapon, ArmorHero, WeaponHero
 from user_app.models import UserCurrency
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-# Create your views here.
 
 
 class HeroListView(LoginRequiredMixin, View):
@@ -149,7 +144,7 @@ class ArmorDetailView(LoginRequiredMixin, View):
         hero_id = request.POST.get('hero')
         request.session['actual_hero'] = hero_id
 
-        return redirect(reverse('armor_detail',armor_id))
+        return redirect(reverse('armor_detail', armor_id))
 
 
 class AddArmorView(LoginRequiredMixin, View):
@@ -246,7 +241,7 @@ class WeaponDetailView(LoginRequiredMixin, View):
         hero_id = request.POST.get('hero')
         request.session['actual_hero'] = hero_id
 
-        return redirect(reverse('weapon_details',weapon_id))
+        return redirect(reverse('weapon_details', weapon_id))
 
 
 class AddWeaponView(LoginRequiredMixin, View):

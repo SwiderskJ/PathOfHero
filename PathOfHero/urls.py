@@ -2,11 +2,15 @@ from django.contrib import admin
 from django.urls import path
 from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDetailView, BuyWeaponView, \
      ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView
-from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView
-
+from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
+    BankAccountView, SettingsView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', DemoPageView.as_view(), name='demo_page'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('team/', TeamView.as_view(), name='team'),
+    path('bank/', BankAccountView.as_view(), name='account'),
+    path('settings/', SettingsView.as_view(), name='settings'),
     path('main/', MainView.as_view(), name='main_site'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
