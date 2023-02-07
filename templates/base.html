@@ -6,21 +6,21 @@
 </head>
 <body>
     <header class="page-header">
-            <a href="/" class="logo">PathOfHero</a>
-            <a href="/Currency/">Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
-            <a href="/about/">about</a>
-            <a href="/team/">team</a>
-            <a href="/login/">login</a>
+            <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
+            <a href={% url 'account' %}>Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
+            <a href={% url 'about' %}>about</a>
+            <a href={% url 'team' %}">team</a>
+            <a href={% url 'login' %}>login</a>
     </header>
     <section class="dashboard-section">
         <div>
             <ul>
-                <li><a href="/main/" class="side-button">Main site</a></li>
-                <li><a href="/hero_list/" class="side-button">Hero list</a></li>
-                <li><a href="/armory/" class="side-button">Armory</a></li>
-                <li><a href="/smith/" class="side-button">Smith</a></li>
-                <li><a href="/settings/" class="side-button">Settings</a></li>
-                <li><a href="/logout/" class="side-button">Logout</a></li>
+                <li><a href={% url 'main_site' %} class="side-button">main_site site</a></li>
+                <li><a href={% url 'hero_list' %} class="side-button">Hero list</a></li>
+                <li><a href={% url 'armory' %} class="side-button">Armory</a></li>
+                <li><a href={% url 'smith' %} class="side-button">Smith</a></li>
+                <li><a href={% url 'settings' %} class="side-button">Settings</a></li>
+                <li><a href={% url 'logout' %} class="side-button">Logout</a></li>
             </ul>
 
 <!-- //--------------------------- page content -------------------------// -->

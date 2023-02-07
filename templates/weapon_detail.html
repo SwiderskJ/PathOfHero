@@ -11,7 +11,7 @@ Weapon Detail
        <li>Defence bonus: {{ weapon.defence_bonus }}</li>
        <li>Attack bonus: {{ weapon.attack_bonus }}</li>
        <li>Price: {{ weapon.price }}</li>
-       <li><a href="/buy_weapon/{{ weapon.id }}/">Buy</a></li>
+       <li><a href={% url 'buy_weapon' %}>Buy</a></li>
    </ul>
 </form>
 {% endblock content %}

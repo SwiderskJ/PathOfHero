@@ -6,7 +6,7 @@ Weapons list
 <form method="post">{% csrf_token %}
     <ul>
         {% if weapons_number == 0 %}
-            Uzupełnij bronie
+            Fill weapons
         {% else %}
             Armors:
             {% for weapon in weapons %}
@@ -14,7 +14,7 @@ Weapons list
                     <li>Name: {{ weapon.name }}</li>
                     <li>Weapon description: {{ weapon.description }}</li>
                     <li>Price: {{ weapon.price }}
-                    <a href="/weapon_details/{{ weapon.id }}/" class="details-button">Details</a></li>
+                    <a href={% url 'weapon_details' weapon.id %} class="details-button">Details</a></li>
                 </ul>
             {% endfor %}
         {% endif %}

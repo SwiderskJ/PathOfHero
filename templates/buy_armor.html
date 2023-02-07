@@ -18,11 +18,11 @@ Buy Armor
             {% if gold_balance < 0 %}
                 <li>Gold: {{ currency.gold }} - {{ armor.price }} = {{ gold_balance }}</li>
                 <li>You don't have enough gold</li>
-                <li><a href="/main/">Main</a></li>
+                <li><a href={% url 'main_site' %}>main_site</a></li>
             {% elif diamond_balance < 0 %}
                 <li>Diamonds: {{ currency.diamonds }} - {{ armor.diamonds }} = {{ diamond_balance }}</li>
                 <li>You don't have enough diamonds</li>
-                <li><a href="/main/">Main</a></li>
+                <li><a href={% url 'main_site' %}>main_site</a></li>
             {% else %}
                 <li>After transaction:</li>
                 <li>Gold: {{ currency.gold }} - {{ armor.price }} = Your Gold {{ gold_balance }}</li>
