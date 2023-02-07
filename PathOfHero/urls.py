@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path
 
 from PathOfHero import settings
-from main.views import DemoPageView, LoginView, UserCreateView, LogoutView, MainView, HeroListView, CreateHeroView
-from main.views import HeroDetailView, ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView
+from main.views import DemoPageView, LoginView, UserCreateView, LogoutView, MainView, HeroListView, CreateHeroView, \
+    BuyWeaponView, HeroDetailView, ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, \
+    BuyArmorView
 from main.views import ArmorDetailView
 
 
@@ -34,8 +35,10 @@ urlpatterns = [
     path('create_hero/', CreateHeroView.as_view()),
     path('armory/', ArmoryListView.as_view()),
     path('armor_details/<int:armor_id>/', ArmorDetailView.as_view()),
+    path('buy_armor/<int:armor_id>/', BuyArmorView.as_view()),
     path('add_armor/', AddArmorView.as_view()),
     path('smith/', SmithListView.as_view()),
     path('weapon_details/<int:weapon_id>/', WeaponDetailView.as_view()),
+    path('buy_weapon/<int:weapon_id>/', BuyWeaponView.as_view()),
     path('add_weapon/', AddWeaponView.as_view()),
 ]

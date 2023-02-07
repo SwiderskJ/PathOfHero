@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+Buy Weapon
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <div>
+        <ul>
+            <li>Name: {{ weapon.name }}</li>
+            <li>Price:{{ weapon.price }}</li>
+            <li>Diamonds: {{ weapon.diamonds }}</li>
+        </ul>
+        <ul>
+            <li>Your gold: {{ currency.gold }}</li>
+            <li>Your diamonds: {{ currency.diamonds }}</li>
+        </ul>
+        <ul>
+            {% if gold_balance < 0 %}
+                <li>Gold: {{ currency.gold }} - {{ weapon.price }} = {{ gold_balance }}</li>
+                <li>You don't have enough gold</li>
+                <li><a href="/main/">Main</a></li>
+            {% elif diamond_balance < 0 %}
+                <li>Diamonds: {{ currency.diamonds }} - {{ weapon.diamonds }} = {{ diamond_balance }}</li>
+                <li>You don't have enough diamonds</li>
+                <li><a href="/main/">Main</a></li>
+            {% else %}
+                <li>After transaction:</li>
+                <li>Gold: {{ currency.gold }} - {{ weapon.price }} = Your Gold {{ gold_balance }}</li>
+                <li>Diamonds: {{ currency.diamonds }} - {{ weapon.diamonds }} = Your Diamonds
+                    {{ diamond_balance }}</li>
+                <input type="submit" value="Buy">
+            {% endif %}
+        </ul>
+    </div>
+</form>
+{% endblock content %}

@@ -30,7 +30,9 @@ class Armor(models.Model):
     defence_bonus = models.IntegerField()
     attack_bonus = models.IntegerField()
     damage_reduction = models.IntegerField()
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
+    diamonds = models.IntegerField(default=0)
+    hero = models.ManyToManyField(Hero, through='ArmorHero')
 
 
 class Weapon(models.Model):
@@ -39,13 +41,23 @@ class Weapon(models.Model):
     defence_bonus = models.IntegerField()
     attack_bonus = models.IntegerField()
     damage_bonus = models.IntegerField()
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
+    diamonds = models.IntegerField(default=0)
+    hero = models.ManyToManyField(Hero, through='WeaponHero')
 
 
-# request.
-# class HeroEquipment(models.Model):
-#     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
-#     armor = models.ForeignKey(Armor, on_delete=models.CASCADE)
-#     weapon = models.ForeignKey(Weapon, on_delete=models.CASCADE)
+class WeaponHero(models.Model):
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    bought_weapons = models.ForeignKey(Weapon, on_delete=models.CASCADE)
+    selected = models.BooleanField(default=False)
 
 
+class ArmorHero(models.Model):
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    bought_armors = models.ForeignKey(Armor, on_delete=models.CASCADE)
+
+
+class UserCurrency(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    gold = models.IntegerField(default=0)
+    diamonds = models.IntegerField(default=0)

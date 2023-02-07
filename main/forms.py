@@ -32,6 +32,7 @@ class ArmorAddForm(forms.Form):
     attack_bonus = forms.IntegerField()
     damage_reduction = forms.IntegerField()
     price = forms.IntegerField()
+    diamonds = forms.IntegerField()
 
 
 class WeaponAddForm(forms.Form):
@@ -41,3 +42,4 @@ class WeaponAddForm(forms.Form):
     attack_bonus = forms.IntegerField()
     damage_bonus = forms.IntegerField()
     price = forms.IntegerField()
+    diamonds = forms.IntegerField()
