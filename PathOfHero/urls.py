@@ -4,7 +4,7 @@ from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDeta
      ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
-from monster_app.views import CreateMonsterView
+from monster_app.views import CreateMonsterView, MonsterList, EditMonsterView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', DemoPageView.as_view(), name='demo_page'),
@@ -27,5 +27,7 @@ urlpatterns = [
     path('weapon_details/<int:weapon_id>/', WeaponDetailView.as_view(), name='weapon_details'),
     path('buy_weapon/<int:weapon_id>/', BuyWeaponView.as_view(), name='buy_weapon'),
     path('add_weapon/', AddWeaponView.as_view(), name='add_weapon'),
-    path('create_monster/', CreateMonsterView.as_view(), name='create_monster')
+    path('create_monster/', CreateMonsterView.as_view(), name='create_monster'),
+    path('monster_list/', MonsterList.as_view(), name='monster_list'),
+    path('edit_monster/<int:monster_id>/', EditMonsterView.as_view(), name='edit_monster'),
 ]
