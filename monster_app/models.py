@@ -12,7 +12,7 @@ DICE = (
 
 class Monster(models.Model):
     name = models.CharField(max_length=16)
-    level = models.IntegerField(default=0)
+    level = models.IntegerField(default=1)
     strength = models.IntegerField()
     dexterity = models.IntegerField()
     wisdom = models.IntegerField()
@@ -23,3 +23,5 @@ class Monster(models.Model):
     damage_reduction = models.IntegerField(null=True)
     number_of_dices = models.IntegerField()
     dice = models.IntegerField(choices=DICE)
+    damage = models.IntegerField(default=3)
+    initiative = models.IntegerField(default=0)

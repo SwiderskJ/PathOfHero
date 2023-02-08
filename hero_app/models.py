@@ -13,7 +13,7 @@ class Hero(models.Model):
     name = models.CharField(max_length=16)
     race = models.IntegerField(choices=HERO_RACE)
     experience_points = models.IntegerField(default=0)
-    level = models.IntegerField(default=0)
+    level = models.IntegerField(default=1)
     strength = models.IntegerField()
     dexterity = models.IntegerField()
     wisdom = models.IntegerField()
@@ -26,6 +26,8 @@ class Hero(models.Model):
     defence_bonus = models.IntegerField(default=0)
     damage_reduction = models.IntegerField(default=0)
     damage_bonus = models.IntegerField(default=0)
+    damage = models.IntegerField(default=3)
+    initiative = models.IntegerField(default=0)
 
 
 class Armor(models.Model):
@@ -51,12 +53,12 @@ class Weapon(models.Model):
 
 
 class WeaponHero(models.Model):
-    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
-    bought_weapons = models.ForeignKey(Weapon, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE, related_name='weapons_hero')
+    bought_weapons = models.ForeignKey(Weapon, on_delete=models.CASCADE, related_name='weapons_hero')
     selected = models.BooleanField(default=False)
 
 
 class ArmorHero(models.Model):
-    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
-    bought_armors = models.ForeignKey(Armor, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE, related_name='armor_hero')
+    bought_armors = models.ForeignKey(Armor, on_delete=models.CASCADE, related_name='armor_hero')
     selected = models.BooleanField(default=False)

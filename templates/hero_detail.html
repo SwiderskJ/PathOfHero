@@ -6,7 +6,7 @@ Hero detail
 <form method="post">{% csrf_token %}
     <ul>
         <li>Name: {{ hero.name }}</li>
-        <li>Race: {{ hero.race }}</li>
+        <li>Race: {{ hero.get_race_display }}</li>
         <li>Experience_points: {{ hero.experience.points }}</li>
         <li>Level: {{ hero.level }}</li>
         <li>Health_points: {{ hero.health_points }}/{{ hero.max_health_points }}</li>
@@ -18,18 +18,16 @@ Hero detail
     </ul>
         <li>Select Weapon:</li>
         <li><select name="weapon" id="weapon">
-                <option value="0">None</option>
             {% for weapon in weapons %}
-                <option value="{{ weapon.hero.id }}">{{ weapon.bought_weapons.name }}</option>
+                <option value="{{ weapon.id }}">{{ weapon.bought_weapons.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Select">
         </li>
         <li>Select Armor:</li>
         <li><select name="armor" id="armor">
-                <option value="0">None</option>
             {% for armor in armors %}
-                <option value="{{ armor.hero.id }}">{{ armor.bought_armors.name }}</option>
+                <option value="{{ armor.id }}">{{ armor.bought_armors.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Select">
