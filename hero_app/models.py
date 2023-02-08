@@ -50,6 +50,7 @@ class Weapon(models.Model):
     price = models.IntegerField(default=0)
     diamonds = models.IntegerField(default=0)
     hero = models.ManyToManyField(Hero, through='WeaponHero')
+    damage = models.IntegerField(default=3)
 
 
 class WeaponHero(models.Model):
