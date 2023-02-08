@@ -44,7 +44,6 @@ class CreateHeroView(LoginRequiredMixin, View):
             data = form.cleaned_data
 
             max_health_points = data.get('endurance') * 4
-            health_points = max_health_points
 
             hero = Hero.objects.create(
                 name=data.get('name'),
@@ -53,14 +52,14 @@ class CreateHeroView(LoginRequiredMixin, View):
                 dexterity=data.get('dexterity'),
                 wisdom=data.get('wisdom'),
                 endurance=data.get('endurance'),
+                health_points=max_health_points,
                 max_health_points=max_health_points,
-                health_points=health_points,
                 user=request.user
             )
 
             request.session['actual_hero'] = hero.id
 
-            return redirect(reverse('hero_list'))
+            return redirect(reverse('hero_detail', kwargs={'hero_id': hero.id}))
 
 
 class HeroDetailView(LoginRequiredMixin, View):
@@ -74,6 +73,38 @@ class HeroDetailView(LoginRequiredMixin, View):
         bought_armors = ArmorHero.objects.filter(hero_id=hero_id)
         bought_weapons = WeaponHero.objects.filter(hero_id=hero_id)
 
+        hero.damage_bonus = hero.strength
+        hero.attack_bonus = hero.dexterity
+        hero.attack_bonus = hero.dexterity
+        hero.defence_bonus = hero.wisdom
+        hero.initiative = hero.wisdom + hero.dexterity
+
+        actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
+
+        if actual_armor:
+            actual_armor = actual_armor[0]
+            actual_armor = Armor.objects.filter(id=actual_armor.id)
+
+            if actual_armor:
+                actual_armor = actual_armor[0]
+                hero.damage_reduction += actual_armor.damage_reduction
+                hero.attack_bonus += actual_armor.attack_bonus
+                hero.defence_bonus += actual_armor.defence_bonus
+
+        actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)
+
+        if actual_weapon:
+            actual_weapon = actual_weapon[0]
+            actual_weapon = Weapon.objects.filter(id=actual_weapon.id)
+
+            if actual_weapon:
+                actual_weapon = actual_weapon[0]
+                hero.damage_bonus += actual_weapon.damage_bonus
+                hero.attack_bonus += actual_weapon.attack_bonus
+                hero.defence_bonus += actual_weapon.defence_bonus
+
+        hero.save()
+
         return render(
             request,
             'hero_detail.html',
@@ -81,21 +112,48 @@ class HeroDetailView(LoginRequiredMixin, View):
                 'hero': hero,
                 'hero_race': hero_race,
                 'armors': bought_armors,
-                'weapons': bought_weapons,
+                'weapons': bought_weapons
             })
 
     def post(self, request, hero_id):
 
         request.session['actual_hero'] = hero_id
 
-        return redirect(reverse('main_site'))
+        last_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)
+        if last_weapon:
+            last_weapon = last_weapon[0]
+            last_weapon.selected = False
+            last_weapon.save()
+
+        last_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
+        if last_armor:
+            last_armor = last_armor[0]
+            last_armor.selected = False
+            last_armor.save()
+
+        weapon_id = request.POST.get('weapon')
+        if weapon_id:
+            new_weapon = WeaponHero.objects.filter(id=weapon_id, hero_id=hero_id)
+            if new_weapon:
+                new_weapon = new_weapon[0]
+                new_weapon.selected = True
+                new_weapon.save()
+
+        armor_id = request.POST.get('armor')
+        if armor_id:
+            new_armor = ArmorHero.objects.filter(id=armor_id, hero_id=hero_id)
+            if new_armor:
+                new_armor = new_armor[0]
+                new_armor.selected = True
+                new_armor.save()
+
+        return redirect(reverse('hero_detail', kwargs={'hero_id': hero_id}))
 
 
 class ArmoryListView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
-
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
 
         if request.session.get('actual_hero') is None:
@@ -113,7 +171,6 @@ class ArmoryListView(LoginRequiredMixin, View):
             })
 
     def post(self, request):
-
         hero_id = request.POST.get('hero')
         request.session['actual_hero'] = hero_id
 
@@ -124,7 +181,6 @@ class ArmorDetailView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request, armor_id):
-
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
 
         if request.session.get('actual_hero') is None:
@@ -140,7 +196,6 @@ class ArmorDetailView(LoginRequiredMixin, View):
             })
 
     def post(self, request, armor_id):
-
         hero_id = request.POST.get('hero')
         request.session['actual_hero'] = hero_id
 
@@ -151,7 +206,6 @@ class AddArmorView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
-
         form = ArmorAddForm()
 
         return render(
@@ -162,7 +216,6 @@ class AddArmorView(LoginRequiredMixin, View):
             })
 
     def post(self, request):
-
         form = ArmorAddForm(request.POST)
 
         if form.is_valid():
@@ -185,11 +238,9 @@ class SmithListView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
-
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
 
         if request.session.get('actual_hero') is None:
-
             return render(
                 request,
                 'list_no_hero.html',
@@ -209,7 +260,6 @@ class SmithListView(LoginRequiredMixin, View):
             })
 
     def post(self, request):
-
         hero_id = request.POST.get('hero')
         request.session['actual_hero'] = hero_id
 
@@ -223,7 +273,6 @@ class WeaponDetailView(LoginRequiredMixin, View):
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
 
         if request.session.get('actual_hero') is None:
-
             return render(
                 request,
                 'list_no_hero.html',
