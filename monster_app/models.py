@@ -1,14 +1,13 @@
 from django.db import models
-Dice = {
-    1: 'd3',
-    2: 'd4',
-    3: 'd6',
-    4: 'd8',
-    5: 'd10',
-    6: 'd12',
-    7: 'd20',
-
-}
+Dice = (
+    (1, 'd3'),
+    (2, 'd4'),
+    (3, 'd6'),
+    (4, 'd8'),
+    (5, 'd10'),
+    (6, 'd12'),
+    (7, 'd20'),
+)
 
 
 class Monster(models.Model):
