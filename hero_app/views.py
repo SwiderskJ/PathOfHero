@@ -79,9 +79,10 @@ class HeroDetailView(LoginRequiredMixin, View):
         hero.initiative = hero.wisdom + hero.dexterity
         hero.damage = 3
 
-        actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)[0]
+        actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
 
         if actual_armor:
+            actual_armor = actual_armor[0]
             actual_armor = actual_armor.bought_armors
 
             if actual_armor:
@@ -90,9 +91,10 @@ class HeroDetailView(LoginRequiredMixin, View):
                 hero.attack_bonus = hero.dexterity + actual_armor.attack_bonus
                 hero.defence_bonus = hero.wisdom + actual_armor.defence_bonus
 
-        actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)[0]
+        actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)
 
         if actual_weapon:
+            actual_weapon = actual_weapon[0]
             actual_weapon = actual_weapon.bought_weapons
 
             if actual_weapon:
