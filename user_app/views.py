@@ -26,6 +26,7 @@ class MainView(LoginRequiredMixin, View):
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
+
         return render(request, 'login.html', context={
                 'form': form
             }
@@ -49,6 +50,7 @@ class LoginView(View):
             if user:
                 # log in
                 login(request, user)
+
                 return redirect(reverse('hero_list'))
             else:
                 return HttpResponse(f"Błąd uwierzytelnienia. Podano nieprawidłowe poświadczenia.")
@@ -57,6 +59,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
+
         return render(
             request,
             'logout.html'
@@ -67,6 +70,7 @@ class UserCreateView(View):
 
     def get(self, request):
         form = UserCreateForm()
+
         return render(
             request,
             'create_user.html',
@@ -88,9 +92,11 @@ class UserCreateView(View):
                 last_name=data.get('last_name'),
                 email=data.get('email')
             )
+
             UserCurrency.objects.create(
                 user=user
             )
+
             return redirect(reverse('login'))
 
 

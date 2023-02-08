@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Add armor
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <ul>
+        {% if number == 0 %}
+            There's no monster!
+        {% else %}
+            Monsters:
+            <p><a href="{% url 'create_monster' %}" class="create-button">Create monster</a> </p>
+            {% for monster in monsters %}
+                <ul>
+                    <li>Name: {{ monsters.name }}</li>
+                    <li>Armor description: {{ monster.level }}</li>
+                    <li>HP: {{ monster.max_health_points }}/{{ monster.max_health_points }}</li>
+                    <li><a href="{% url 'edit_monster' monster.id %}" class="edit-button">Edit</a></li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+    </ul>
+
+
+</form>
+{% endblock content %}

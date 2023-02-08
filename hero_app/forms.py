@@ -13,7 +13,7 @@ class CreateHeroForm(forms.Form):
 
 class ArmorAddForm(forms.Form):
     name = forms.CharField()
-    description = forms.CharField()
+    description = forms.CharField(widget=forms.Textarea)
     defence_bonus = forms.IntegerField()
     attack_bonus = forms.IntegerField()
     damage_reduction = forms.IntegerField()
@@ -23,7 +23,8 @@ class ArmorAddForm(forms.Form):
 
 class WeaponAddForm(forms.Form):
     name = forms.CharField()
-    description = forms.CharField()  # ask about format
+    description = forms.CharField(widget=forms.Textarea)
+
     defence_bonus = forms.IntegerField()
     attack_bonus = forms.IntegerField()
     damage_bonus = forms.IntegerField()
