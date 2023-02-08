@@ -22,6 +22,10 @@ class Hero(models.Model):
     max_health_points = models.IntegerField()
     is_alive = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    attack_bonus = models.IntegerField(default=0)
+    defence_bonus = models.IntegerField(default=0)
+    damage_reduction = models.IntegerField(default=0)
+    damage_bonus = models.IntegerField(default=0)
 
 
 class Armor(models.Model):
