@@ -1,5 +1,5 @@
 from django.db import models
-Dice = (
+DICE = (
     (1, 'd3'),
     (2, 'd4'),
     (3, 'd6'),
@@ -12,6 +12,7 @@ Dice = (
 
 class Monster(models.Model):
     name = models.CharField(max_length=16)
+    description = models.TextField()
     level = models.IntegerField(default=0)
     strength = models.IntegerField()
     dexterity = models.IntegerField()
@@ -22,4 +23,4 @@ class Monster(models.Model):
     difficult = models.IntegerField()
     damage_reduction = models.IntegerField()
     number_of_dices = models.IntegerField()
-    dice = models.IntegerField(choices=Dice)
+    dice = models.IntegerField(choices=DICE)
