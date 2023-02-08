@@ -75,33 +75,37 @@ class HeroDetailView(LoginRequiredMixin, View):
 
         hero.damage_bonus = hero.strength
         hero.attack_bonus = hero.dexterity
-        hero.attack_bonus = hero.dexterity
         hero.defence_bonus = hero.wisdom
         hero.initiative = hero.wisdom + hero.dexterity
+        hero.damage = 3
 
-        actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
+        actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)[0]
 
         if actual_armor:
-            actual_armor = actual_armor[0]
-            actual_armor = Armor.objects.filter(id=actual_armor.id)
+            actual_armor = actual_armor.bought_armors
 
             if actual_armor:
-                actual_armor = actual_armor[0]
-                hero.damage_reduction += actual_armor.damage_reduction
-                hero.attack_bonus += actual_armor.attack_bonus
-                hero.defence_bonus += actual_armor.defence_bonus
 
-        actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)
+                hero.damage_reduction = actual_armor.damage_reduction
+                hero.attack_bonus = hero.dexterity + actual_armor.attack_bonus
+                hero.defence_bonus = hero.wisdom + actual_armor.defence_bonus
+
+        actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)[0]
 
         if actual_weapon:
-            actual_weapon = actual_weapon[0]
-            actual_weapon = Weapon.objects.filter(id=actual_weapon.id)
+            actual_weapon = actual_weapon.bought_weapons
 
             if actual_weapon:
-                actual_weapon = actual_weapon[0]
-                hero.damage_bonus += actual_weapon.damage_bonus
-                hero.attack_bonus += actual_weapon.attack_bonus
-                hero.defence_bonus += actual_weapon.defence_bonus
+                hero.damage_bonus = hero.strength + actual_weapon.damage_bonus
+                hero.attack_bonus = hero.dexterity + actual_weapon.attack_bonus
+                hero.defence_bonus = hero.wisdom + actual_weapon.defence_bonus
+                hero.damage = actual_weapon.damage
+
+        if actual_weapon and actual_armor:
+            hero.damage_bonus = hero.strength + actual_weapon.damage_bonus
+            hero.attack_bonus = hero.dexterity + actual_weapon.attack_bonus + actual_armor.attack_bonus
+            hero.defence_bonus = hero.wisdom + actual_weapon.defence_bonus + actual_armor.defence_bonus
+            hero.damage = actual_weapon.damage
 
         hero.save()
 
