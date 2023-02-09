@@ -86,6 +86,11 @@ class EditMonsterView(LoginRequiredMixin, View):
             monster.damage_reduction = data.get('damage_reduction')
             monster.number_of_dices = data.get('number_of_dices')
             monster.dice = data.get('dice')
+            monster.damage_bonus = monster.strength
+            monster.attack_bonus = monster.dexterity
+            monster.defence_bonus = monster.wisdom
+            monster.initiative = monster.wisdom + monster.dexterity
+            monster.damage = monster.dice
             monster.save()
 
             return redirect(reverse('monster_list'))

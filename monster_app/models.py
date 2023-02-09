@@ -1,12 +1,12 @@
 from django.db import models
 DICE = (
-    (1, "d3"),
-    (2, "d4"),
-    (3, "d6"),
-    (4, "d8"),
-    (5, "d10"),
-    (6, "d12"),
-    (7, "d20"),
+    (1, 3),
+    (2, 4),
+    (3, 6),
+    (4, 8),
+    (5, 10),
+    (6, 12),
+    (7, 20),
 )
 
 
@@ -25,3 +25,6 @@ class Monster(models.Model):
     dice = models.IntegerField(choices=DICE)
     damage = models.IntegerField(default=3)
     initiative = models.IntegerField(default=0)
+    attack_bonus = models.IntegerField(default=0)
+    defence_bonus = models.IntegerField(default=0)
+    damage_bonus = models.IntegerField(default=0)

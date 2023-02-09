@@ -14,3 +14,4 @@ class MonsterForm(forms.Form):
     damage_reduction = forms.IntegerField()
     number_of_dices = forms.IntegerField()
     dice = forms.ChoiceField(choices=DICE)
+    damage = forms.IntegerField()
