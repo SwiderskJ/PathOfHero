@@ -44,4 +44,4 @@
 #         Maze.objects.create(position=37)
 #         Maze.objects.create(position=38, option=4)
 #
-
+#
