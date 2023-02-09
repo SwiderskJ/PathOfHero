@@ -12,8 +12,8 @@ Add armor
             <p><a href="{% url 'create_monster' %}" class="create-button">Create monster</a> </p>
             {% for monster in monsters %}
                 <ul>
-                    <li>Name: {{ monsters.name }}</li>
-                    <li>Armor description: {{ monster.level }}</li>
+                    <li>Name: {{ monster.name }}</li>
+                    <li>Monster level: {{ monster.level }}</li>
                     <li>HP: {{ monster.max_health_points }}/{{ monster.max_health_points }}</li>
                     <li><a href="{% url 'edit_monster' monster.id %}" class="edit-button">Edit</a></li>
                 </ul>

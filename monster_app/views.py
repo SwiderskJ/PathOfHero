@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.urls import reverse_lazy, reverse
 from monster_app.forms import MonsterForm
-from monster_app.models import Monster
+from monster_app.models import Monster, DICE
 
 
 class MonsterList(LoginRequiredMixin, View):
@@ -28,20 +28,30 @@ class CreateMonsterView(LoginRequiredMixin, View):
         if form.is_valid():
             data = form.cleaned_data
 
-            Monster.objects.create(
+            monster = Monster.objects.create(
                 name=data.get('name'),
                 level=data.get('level'),
                 strength=data.get('strength'),
                 dexterity=data.get('dexterity'),
                 wisdom=data.get('wisdom'),
                 endurance=data.get('endurance'),
-                health_points=data.get('max_health_points'),
-                max_health_points=data.get('max_health_points'),
                 difficult=data.get('difficult'),
                 damage_reduction=data.get('damage_reduction'),
                 number_of_dices=data.get('number_of_dices'),
                 dice=data.get('dice'),
             )
+
+            monster.max_health_points = monster.endurance * 4
+            monster.health_points = monster.max_health_points
+            monster.damage_bonus = monster.strength
+            monster.attack_bonus = monster.dexterity
+            monster.defence_bonus = monster.wisdom
+            monster.initiative = monster.wisdom + monster.dexterity
+            monster_dice = int(monster.dice)
+            monster_dice = DICE[monster_dice - 1]
+            monster_dice = monster_dice[1]
+            monster.damage = monster.number_of_dices * monster_dice
+            monster.save()
 
             return redirect(reverse('create_monster'))
 
@@ -58,7 +68,6 @@ class EditMonsterView(LoginRequiredMixin, View):
             'dexterity': monster.dexterity,
             'wisdom': monster.wisdom,
             'endurance': monster.endurance,
-            'max_health_points': monster.max_health_points,
             'difficult': monster.difficult,
             'damage_reduction': monster.damage_reduction,
             'number_of_dices': monster.number_of_dices,
@@ -80,12 +89,20 @@ class EditMonsterView(LoginRequiredMixin, View):
             monster.dexterity = data.get('dexterity')
             monster.wisdom = data.get('wisdom')
             monster.endurance = data.get('endurance')
-            monster.health_points = data.get('max_health_points')
-            monster.max_health_points = data.get('max_health_points')
+            monster.max_health_points = monster.endurance * 4
+            monster.health_points = monster.max_health_points
             monster.difficult = data.get('difficult')
             monster.damage_reduction = data.get('damage_reduction')
             monster.number_of_dices = data.get('number_of_dices')
             monster.dice = data.get('dice')
+            monster.damage_bonus = monster.strength
+            monster.attack_bonus = monster.dexterity
+            monster.defence_bonus = monster.wisdom
+            monster.initiative = monster.wisdom + monster.dexterity
+            monster_dice = int(monster.dice)
+            monster_dice = DICE[monster_dice - 1]
+            monster_dice = monster_dice[1]
+            monster.damage = monster_dice * monster.number_of_dices
             monster.save()
 
             return redirect(reverse('monster_list'))
