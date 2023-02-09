@@ -402,3 +402,10 @@ class BuyArmorView(LoginRequiredMixin, View):
         armor.hero.add(hero)
 
         return redirect(reverse('armory'))
+
+
+class HeroSelectView(View):
+
+    def get(self, request, hero_id):
+        request.session['actual_hero'] = hero_id
+        return redirect(reverse('hero_list'))

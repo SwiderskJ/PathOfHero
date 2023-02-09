@@ -6,6 +6,7 @@ Select Hero
 <form method="post">{% csrf_token %}
     <ul>
         <li>
+            If you want to enter, select your Hero
             <select name="hero" id="hero">
             {% for hero in hero_list %}
                 <option value="{{ hero.id }}">{{ hero.name }}</option>
