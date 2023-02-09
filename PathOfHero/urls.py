@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDetailView, BuyWeaponView, \
-     ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView
+    ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView, HeroSelectView
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
 from monster_app.views import CreateMonsterView, MonsterList, EditMonsterView
@@ -19,6 +19,7 @@ urlpatterns = [
     path('register/', UserCreateView.as_view(), name='register'),
     path('hero_list/', HeroListView.as_view(), name='hero_list'),
     path('hero_details/<int:hero_id>/', HeroDetailView.as_view(), name='hero_detail'),
+    path('hero_select/<int:hero_id>', HeroSelectView.as_view(), name='hero_select'),
     path('create_hero/', CreateHeroView.as_view(), name='create_hero'),
     path('armory/', ArmoryListView.as_view(), name='armory'),
     path('armor_details/<int:armor_id>/', ArmorDetailView.as_view(), name='armor_detail'),

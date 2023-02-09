@@ -12,9 +12,13 @@ Login
              <a href="/create_hero/" class="create-hero-button">Create hero</a>
             {% for hero in hero_list %}
                 <li> Name: {{ hero.name }} Level: {{ hero.level }} {{ hero.health_points }}/{{ hero.max_health_points }}
-                <a href={% url 'hero_detail' hero.id %} class="details-button">Details</a></li>
-{#                <input type="number" value='{{hero.id}}' name="heroes" hidden >#}
-{#                <input type="submit" value="Select as active">#}
+                    {% if session_hero.id == hero.id %}
+                        Selected
+                    {% else %}
+                        <a href="{% url 'hero_select' hero.id%}" class="select-list-button">Select hero</a>
+                    {% endif %}
+                    <a href={% url 'hero_detail' hero.id %} class="details-button">Details</a></li>
+
             {% endfor %}
         {% endif %}
     </ul>
