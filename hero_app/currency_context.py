@@ -22,3 +22,13 @@ def hero(request):
     return {
         'session_hero': session_hero
     }
+
+
+def user(request):
+    if not request.user.is_authenticated:
+        return {}
+
+    return {
+        'user': request.user,
+
+    }

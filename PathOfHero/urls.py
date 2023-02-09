@@ -5,6 +5,7 @@ from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDeta
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
 from monster_app.views import CreateMonsterView, MonsterList, EditMonsterView
+from gameplay_app.views import EntryMazeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +33,7 @@ urlpatterns = [
     path('create_monster/', CreateMonsterView.as_view(), name='create_monster'),
     path('monster_list/', MonsterList.as_view(), name='monster_list'),
     path('edit_monster/<int:monster_id>/', EditMonsterView.as_view(), name='edit_monster'),
+    path('entry_maze/', EntryMazeView.as_view(), name='maze_entry'),
+    path('maze/<slug:slug>', EntryMazeView.as_view(), name='maze'),
+
 ]

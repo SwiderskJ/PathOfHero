@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    <header class="page-header">
+        <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
+        <a href={% url 'main_site' %}>Main</a>
+        {% if user %}
+            Hello, {{ user.username }}
+        {% else %}
+        <a href={% url 'login' %}>login</a>
+        {% endif %}
+    </header>
+
+
+<!-- //--------------------------- page content -------------------------// -->
+{% block content %}{% endblock content %}
+<!-- //--------------------------- page content end ---------------------// -->
+
+            </div>
+        <footer>
+          <p>&copy; Medieval Adventure Game 2023</p>
+        </footer>
+    </section>
+</body>
+</html>

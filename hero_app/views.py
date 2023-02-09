@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
+
+from gameplay_app.models import Maze
 from hero_app.forms import CreateHeroForm, ArmorAddForm, WeaponAddForm
 from hero_app.models import HERO_RACE
 from hero_app.models import Hero, Armor, Weapon, ArmorHero, WeaponHero
@@ -56,8 +58,9 @@ class CreateHeroView(LoginRequiredMixin, View):
                 max_health_points=max_health_points,
                 user=request.user
             )
-
+            maze = Maze.objects.get(position=1)
             request.session['actual_hero'] = hero.id
+            maze.hero.add(hero)
 
             return redirect(reverse('hero_detail', kwargs={'hero_id': hero.id}))
 
@@ -404,7 +407,8 @@ class BuyArmorView(LoginRequiredMixin, View):
         return redirect(reverse('armory'))
 
 
-class HeroSelectView(View):
+class HeroSelectView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
 
     def get(self, request, hero_id):
         request.session['actual_hero'] = hero_id

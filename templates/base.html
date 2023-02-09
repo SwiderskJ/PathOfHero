@@ -10,7 +10,11 @@
         <a href={% url 'account' %}>Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
         <a href={% url 'about' %}>about</a>
         <a href={% url 'team' %}>team</a>
+        {% if user %}
+            Hello, {{ user.username }}
+        {% else %}
         <a href={% url 'login' %}>login</a>
+        {% endif %}
     </header>
 
     <section class="dashboard-section">
