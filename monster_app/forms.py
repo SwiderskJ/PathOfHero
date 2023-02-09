@@ -9,9 +9,8 @@ class MonsterForm(forms.Form):
     dexterity = forms.IntegerField()
     wisdom = forms.IntegerField()
     endurance = forms.IntegerField()
-    max_health_points = forms.IntegerField()
     difficult = forms.IntegerField()
     damage_reduction = forms.IntegerField()
     number_of_dices = forms.IntegerField()
     dice = forms.ChoiceField(choices=DICE)
-    damage = forms.IntegerField()
+

@@ -5,6 +5,7 @@ from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDeta
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
 from monster_app.views import CreateMonsterView, MonsterList, EditMonsterView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', DemoPageView.as_view(), name='demo_page'),
