@@ -2,7 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from hero_app.models import Hero
 import datetime
-from random import randint, random
+from random import randint
 
 EVENTS = (
     (1, "One-way tunnel"),

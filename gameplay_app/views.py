@@ -35,11 +35,27 @@ class MazeMovementView(LoginRequiredMixin, View):
 
     def get(self, request, slug):
 
-
         return render(request, 'maze.html', )
 
 
 class MazeIntroFightView(View):
+
+    def get(self, request):
+        hero = request.session.get('actual_hero')
+        hero = Hero.objects.get(id=hero)
+
+        random_number = randint(1, 10)
+        random_number_max = random_number + 2
+        random_number_min = random_number - 2
+        if random_number_max > 10:
+            random_number_max = 10
+        if random_number_min < 1:
+            random_number_min = 1
+
+        random_number
+
+
+class FightView(View):
 
     def get(self, request, slug):
         pass

@@ -4,6 +4,8 @@ from django.views import View
 from django.urls import reverse_lazy, reverse
 from monster_app.forms import MonsterForm
 from monster_app.models import Monster, DICE
+from django.template.defaultfilters import slugify
+from random import randint
 
 
 class MonsterList(LoginRequiredMixin, View):
@@ -51,6 +53,9 @@ class CreateMonsterView(LoginRequiredMixin, View):
             monster_dice = DICE[monster_dice - 1]
             monster_dice = monster_dice[1]
             monster.damage = monster.number_of_dices * monster_dice
+            if monster.slug == 0:
+                monster.slug = slugify(monster.name + str(randint(1, 1000)) + str(monster.strength)
+                                       + str(monster.dexterity) + str(randint(1, 1000)))
             monster.save()
 
             return redirect(reverse('create_monster'))
@@ -59,8 +64,8 @@ class CreateMonsterView(LoginRequiredMixin, View):
 class EditMonsterView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
-    def get(self, request, monster_id):
-        monster = Monster.objects.get(id=monster_id)
+    def get(self, request, slug):
+        monster = Monster.objects.get(slug=slug)
         form = MonsterForm(initial={
             'name': monster.name,
             'level': monster.level,

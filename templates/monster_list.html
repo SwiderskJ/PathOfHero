@@ -15,7 +15,7 @@ Add armor
                     <li>Name: {{ monster.name }}</li>
                     <li>Monster level: {{ monster.level }}</li>
                     <li>HP: {{ monster.max_health_points }}/{{ monster.max_health_points }}</li>
-                    <li><a href="{% url 'edit_monster' monster.id %}" class="edit-button">Edit</a></li>
+                    <li><a href="{% url 'edit_monster' monster.slug %}" class="edit-button">Edit</a></li>
                 </ul>
             {% endfor %}
         {% endif %}
