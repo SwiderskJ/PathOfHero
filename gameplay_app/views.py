@@ -19,7 +19,7 @@ class EntryMazeView(LoginRequiredMixin, View):
         hero = Hero.objects.get(id=hero)
 
         actual_position = MazeHero.objects.get(hero_id=hero.id, active_position=True)
-        actual_position = Maze.objects.get(position=actual_position.position)
+        actual_position = Maze.objects.get(position=actual_position.position.position)
 
         if actual_position.position > 1:
 
@@ -34,25 +34,46 @@ class MazeMovementView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request, slug):
-
-        return render(request, 'maze.html', )
+        maze = Maze.objects.get(slug=slug)
+        return render(request, 'maze.html', context={
+            "maze": maze,
+        })
 
 
 class MazeIntroFightView(View):
 
-    def get(self, request):
+    def get(self, request, slug):
         hero = request.session.get('actual_hero')
         hero = Hero.objects.get(id=hero)
-
+        maze = Maze.objects.get(slug=slug)
         random_number = randint(1, 10)
-        random_number_max = random_number + 2
-        random_number_min = random_number - 2
-        if random_number_max > 10:
-            random_number_max = 10
-        if random_number_min < 1:
-            random_number_min = 1
+        random_number_two = randint(0, 3)
+        random_number = random_number + maze.difficulty
 
-        random_number
+        if random_number > 10:
+            random_number = 10
+
+        if random_number < 1:
+            random_number = 1
+
+        monster = Monster.objects.filter(difficult=random_number)
+        monster_count = monster.count()
+        monster_count = randint(1, monster_count)
+        monster = monster[monster_count - 1]
+        if random_number in [7, 8, 9, 10]:
+            messages = "Should be easy"
+        if random_number in [4, 5, 6]:
+            messages = "Maybe you win"
+        if random_number in [2, 3]:
+            messages = "The strongest and most powerful enemies"
+        if random_number in [1]:
+            messages = "Only for true heroes"
+
+        return render(request, 'maze_pre_fight.html', context={
+            'hero': hero,
+            'message': messages,
+            'monster': monster,
+        })
 
 
 class FightView(View):
