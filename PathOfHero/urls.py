@@ -34,7 +34,7 @@ urlpatterns = [
     path('monster_list/', MonsterList.as_view(), name='monster_list'),
     path('edit_monster/<slug:slug>/', EditMonsterView.as_view(), name='edit_monster'),
     path('entry_maze/', EntryMazeView.as_view(), name='maze_entry'),
-    path('maze/<slug:slug>/', MazeMovementView.as_view(), name='maze'),
+    path('maze/', MazeMovementView.as_view(), name='maze'),
     path('prefight/<slug:slug>/', MazeIntroFightView.as_view(), name='pre_fight'),
     path('fight/<slug:slug>/', FightView.as_view(), name='fight')
 ]

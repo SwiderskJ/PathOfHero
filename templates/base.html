@@ -20,6 +20,10 @@
     <section class="dashboard-section">
         <div>
             <ul>
+                <li>{% if session_hero %}
+                        <a href="{% url 'maze_entry' %}">Play</a>
+                {% endif %}
+                </li>
                 <li><a href={% url 'main_site' %} class="side-button">Main </a></li>
                 <li>Current hero: {{ session_hero.name }}</li>
                 <li><a href={% url 'hero_list' %} class="side-button">Hero list</a></li>

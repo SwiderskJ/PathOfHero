@@ -1,8 +1,9 @@
 {% extends 'base_maze.html' %}
 {% block title %}
-Maze entry
+Maze
 {% endblock title %}
 {% block content %}
-    text about game
-    <a href="{% url 'maze' %}">Enter</a>
+    image
+    BOSS!
+    <a href="{% url 'pre_fight' maze.slug %}">Forward</a>
 {% endblock content %}
