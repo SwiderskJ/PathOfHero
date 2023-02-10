@@ -81,7 +81,7 @@ class HeroDetailView(LoginRequiredMixin, View):
         hero.defence_bonus = hero.wisdom
         hero.initiative = hero.wisdom + hero.dexterity
         hero.damage = 3
-
+        hero.number_of_attacks = int(round(hero.dexterity/10))
         actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
 
         if actual_armor:

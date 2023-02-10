@@ -28,6 +28,7 @@ class Hero(models.Model):
     damage_bonus = models.IntegerField(default=0)
     damage = models.IntegerField(default=3)
     initiative = models.IntegerField(default=0)
+    number_of_attacks = models.IntegerField(default=1)
 
 
 class Armor(models.Model):
