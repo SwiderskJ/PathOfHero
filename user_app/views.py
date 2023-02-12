@@ -9,13 +9,13 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 
-class DemoPageView(View):
+class DemoPageView(View):  # This class-based view returns a demo page to the client.
 
     def get(self, request):
         return render(request, 'demo_page.html')
 
 
-class MainView(LoginRequiredMixin, View):
+class MainView(LoginRequiredMixin, View):  # This view is responsible for handling requests to the main page.
     login_url = reverse_lazy('login')
 
     def get(self, request):
@@ -23,8 +23,8 @@ class MainView(LoginRequiredMixin, View):
         return render(request, 'main.html')
 
 
-class LoginView(View):
-    def get(self, request):
+class LoginView(View):  # This class-based view handles requests for the login page.
+    def get(self, request): # The GET method returns the login form.
         form = LoginForm()
 
         return render(request, 'login.html', context={
@@ -32,7 +32,7 @@ class LoginView(View):
             }
         )
 
-    def post(self, request):
+    def post(self, request):  # The POST method authenticates the user and redirect to hero list page.
         form = LoginForm(request.POST)
 
         if form.is_valid():
@@ -53,10 +53,10 @@ class LoginView(View):
 
                 return redirect(reverse('hero_list'))
             else:
-                return HttpResponse(f"Błąd uwierzytelnienia. Podano nieprawidłowe poświadczenia.")
+                return redirect(reverse('login'))
 
 
-class LogoutView(View):
+class LogoutView(View):  # This view logs the user out of the application and returns a logout page to the client.
     def get(self, request):
         logout(request)
 
@@ -66,9 +66,9 @@ class LogoutView(View):
         )
 
 
-class UserCreateView(View):
+class UserCreateView(View):  # This view is responsible for handling user registration requests.
 
-    def get(self, request):
+    def get(self, request):  # The GET method returns the form to create a new user.
         form = UserCreateForm()
 
         return render(
@@ -79,7 +79,7 @@ class UserCreateView(View):
             }
         )
 
-    def post(self, request):
+    def post(self, request):  # The POST method creates a new user if the form is valid.
         form = UserCreateForm(request.POST)
 
         if form.is_valid():
@@ -93,6 +93,7 @@ class UserCreateView(View):
                 email=data.get('email')
             )
 
+            # The user's currency information is also created in the process.
             UserCurrency.objects.create(
                 user=user
             )

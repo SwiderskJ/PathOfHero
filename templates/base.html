@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>{% block title %}{% endblock title %}</title>
@@ -17,8 +18,8 @@
         </h1>
         <h2>
             <a href={% url 'account' %}>Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
-            <a href={% url 'about' %}>about</a>
-            <a href={% url 'team' %}>team</a>
+            <a href={% url 'about' %}>About</a>
+            <a href={% url 'team' %}>Team</a>
         {% if user %}
             Welcome, {{ user.username }}
         {% else %}
@@ -40,13 +41,14 @@
             <p><a href={% url 'settings' %} class="side-button">Settings</a></p>
             <p><a href={% url 'logout' %} class="side-button">Logout</a></p>
         </div>
-
-        <section class="dashboard-main">
+        <section class="dashboard-background">
+            <section class="dashboard-main">
 
 <!-- //--------------------------- page content -------------------------// -->
 {% block content %}{% endblock content %}
 <!-- //--------------------------- page content end ---------------------// -->
 
+            </section>
         </section>
     </section>
         <footer>

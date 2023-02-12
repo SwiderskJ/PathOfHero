@@ -3,13 +3,15 @@
 Login
 {% endblock title %}
 {% block content %}
-<form method="post">{% csrf_token %}
-    <ul>
+<section method="post">{% csrf_token %}
+    <section>
         {% if number == 0 %}
             <a href="/create_hero/" class="create-hero-button">Create hero</a>
         {% else %}
-            Your Heroes
-             <a href="/create_hero/" class="create-hero-button">Create hero</a>
+            <section class="hero-list-title"
+            <p>Your Heroes</p>
+            <p><a href="/create_hero/" class="create-hero-button">Create hero</a></p>
+            </section>
             {% for hero in hero_list %}
                 <li> Name: {{ hero.name }} Level: {{ hero.level }} {{ hero.health_points }}/{{ hero.max_health_points }}
                     {% if session_hero.id == hero.id %}
@@ -21,8 +23,6 @@ Login
 
             {% endfor %}
         {% endif %}
-    </ul>
-
-
+    </section>
 </form>
 {% endblock content %}

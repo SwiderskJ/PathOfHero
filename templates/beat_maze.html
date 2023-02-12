@@ -1,6 +1,6 @@
 {% extends 'base_maze.html' %}
 {% block title %}
-Fight
+End maze
 {% endblock title %}
 {% block content %}
     <ul>
@@ -10,6 +10,7 @@ Fight
         {% for history in fight_history %}
             <li>{{ history }}</li>
         {% endfor %}
-        <li><a href="{% url 'maze' %}" class="fight-button">Continue</a></li>
+        <li>You beat the maze try again</li>
+        <li><a href="{% url 'main_site' %}" class="fight-button">main</a></li>
     </ul>
 {% endblock content %}

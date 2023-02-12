@@ -13,12 +13,12 @@ body {
     font-family: "Apple Chancery", sans-serif;
     color: #ffffff;
     background-color: rgb(251, 207, 40);
-    background-image: url("../static/img/sample1.png");
-    /* Set rules to fill background */
-  background-position: top;
+    background-image: url("../img/login_registration.png");
+    background-position: top;
     background-size: 100%;
     width: 100%;
     height: 100%;
+    font-size: large;
 }
 
 @media screen and (max-width: 1024px) { /* Specific to this particular image */
@@ -28,37 +28,23 @@ body {
   }
 }
 body header{
-
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-justify-content: normal;
-align-items: center;
-align-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
     padding-left: 25px;
     padding-right: 25px;
+}
+body header h2 a {
+    padding-right: 15px;
 }
 
 .dashboard-section {
 
     display: flex;
-
-}
-.dashboard-main {
-    background-color: #4ac1f7;
-
-    display: flex;
-    align-items: flex-start;
-    align-content: flex-start;
-
-}
-.side-menu {
-    width: 15%;
-    height: 100%;
-    color: #ffffff;
-    font-size: x-large;
-    display: inline-block;
-    padding-left: 30px;
+    justify-content: center;
+    font-size: large;
 
 }
 
@@ -72,5 +58,18 @@ color: rgba(255, 255, 255, 0.67);
     align-content: center;
     flex-wrap: wrap;
     width: 100%;
+    font-size: medium;
 
+}
+.button {
+    transition-duration: 0.4s;
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)
+}
+
+.button:hover {
+    background-color: #000000;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)
 }

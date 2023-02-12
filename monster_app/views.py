@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 from random import randint
 
 
-class MonsterList(LoginRequiredMixin, View):
+class MonsterList(LoginRequiredMixin, View):  # Used to display a list of all the monsters stored in the database,
     login_url = reverse_lazy('login')
 
     def get(self, request):
@@ -16,7 +16,7 @@ class MonsterList(LoginRequiredMixin, View):
         return render(request, 'monster_list.html', {'monsters': monsters})
 
 
-class CreateMonsterView(LoginRequiredMixin, View):
+class CreateMonsterView(LoginRequiredMixin, View):  # This view is used to create a new monster in the database.
     login_url = reverse_lazy('login')
 
     def get(self, request):
@@ -42,7 +42,7 @@ class CreateMonsterView(LoginRequiredMixin, View):
                 number_of_dices=data.get('number_of_dices'),
                 dice=data.get('dice'),
             )
-
+            # The monster's attributes are calculated based on the input from the form and stored in the database.
             monster.max_health_points = monster.endurance * 4
             monster.health_points = monster.max_health_points
             monster.damage_bonus = monster.strength
@@ -61,7 +61,7 @@ class CreateMonsterView(LoginRequiredMixin, View):
             return redirect(reverse('create_monster'))
 
 
-class EditMonsterView(LoginRequiredMixin, View):
+class EditMonsterView(LoginRequiredMixin, View):  # This view is used to edit an existing monster in the database.
     login_url = reverse_lazy('login')
 
     def get(self, request, slug):

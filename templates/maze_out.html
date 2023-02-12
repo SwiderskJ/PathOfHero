@@ -1,0 +1,11 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+End entry
+{% endblock title %}
+{% block content %}
+    <ul>
+        text about coming back to entry
+        <li><a href="{% url 'pre_fight' maze.slug %}"> Go back to maze</a></li>
+        <li><a href="{% url 'main_site' %}" class="fight-button">Exit</a></li>
+    </ul>
+{% endblock content %}
