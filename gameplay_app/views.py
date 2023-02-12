@@ -233,8 +233,9 @@ class MazeIntroFightView(LoginRequiredMixin, View):  # Class-based view for hand
         hero = request.session.get('actual_hero')
         hero = Hero.objects.get(id=hero)
         maze = Maze.objects.get(slug=slug)
+        maze_boss = Maze.objects.get(position=38)
 
-        if maze.events == 4:
+        if maze_boss.events == 4:
             monster = Monster.objects.filter(difficult=1)
             monster_count = monster.count()
             monster_count = randint(1, monster_count)
@@ -247,13 +248,13 @@ class MazeIntroFightView(LoginRequiredMixin, View):  # Class-based view for hand
             })
 
         random_number = randint(1, 10)
-        random_number = random_number + maze.difficulty
+        random_number = random_number - maze.difficulty
 
         if random_number > 10:
             random_number = 10
 
-        if random_number < 1:
-            random_number = 1
+        if random_number < 2:
+            random_number = 2
 
         monster = Monster.objects.filter(difficult=random_number)
         monster_count = monster.count()
@@ -330,139 +331,171 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
 
         fight_history = []
 
-        while hero.health_points < 1 or monster.health_points < 1:
-            hero_attack = randint(1, 6) + hero.attack_bonus
-            monster_attack = randint(1, 6) + monster_attack
-            monster_damage = (randint(monster.dice, monster.damage) * monster.dice) + monster.damage_bonus - \
-                             hero.damage_reduction
-            hero_damage = (randint(hero.number_of_attacks,
-                                   hero_damage) * hero.number_of_attacks) + hero.damage_bonus - \
-                          monster.damage_reduction
+        # monster_damage_value = 0
+        # monster_damage_view = []
+        # for attack in range(0, monster.number_of_dices):
+        #     monster_damage_value += randint(1, monster.dice) + monster.damage_bonus
+        #     monster_damage_view.append(monster_damage_view)
+        #
+        # hero_damage_value = 0
+        # hero_damage_view = 0
+        # for attack in range(hero.number_of_attacks):
+        #     hero_damage_value += randint(1, hero.damage) + hero.damage_bonus
+        #     hero_damage_view.append(monster_damage_view)
+        # print(monster_damage_value)
+        # print(monster_damage_view)
+        monster_damage = monster_damage_value
+        hero_damage = hero_damage_value
 
-            if hero.initiative > monster.initiative:
-                if hero_attack < randint(1, 6) + monster.defence_bonus:
-                    if monster_attack < randint(1, 6) + hero.defence_bonus:
-                        text = "Hero attack first and miss. Monster attack second and miss."
-                        fight_history.append(text)
+        # while hero.health_points > 0 or monster.health_points > 0:
+        #     hero_attack = randint(1, 20) + hero.attack_bonus
+        #     monster_attack = randint(1, 20) + monster.attack_bonus
+        #     hero_defence = randint(1, 20) + hero.defence_bonus
+        #     monster_defence = (randint(1, 20)) + monster.defence_bonus
+        #
+        #     monster_damage_value = 0
+        #     monster_damage_view = []
+        #     for attack in range(monster.dice):
+        #         monster_damage_value += randint(1, monster.damage) + monster.damage_bonus
+        #         monster_damage_view.append(monster_damage_view)
+        #
+        #     hero_damage_value = 0
+        #     hero_damage_view = 0
+        #     for attack in range(hero.number_of_attacks):
+        #         hero_damage_value += randint(1, hero.damage) + hero.damage_bonus
+        #         hero_damage_view.append(monster_damage_view)
+        #     print(monster_damage_value)
+        #     print(monster_damage_view)
+        #     monster_damage = monster_damage_value
+        #     hero_damage = hero_damage_value
+        #
+        #
+        #
+        #     if hero.initiative > monster.initiative:
+        #         if hero_attack < randint(1, 6) + monster.defence_bonus:
+        #             if monster_attack < randint(1, 6) + hero.defence_bonus:
+        #                 text = "Hero attack first and miss. Monster attack second and miss."
+        #                 fight_history.append(text)
+        #
+        #             text = f"Hero attack first and miss. Monster attack second and hit. " \
+        #                    f"Hero get damage {monster_damage}."
+        #             fight_history.append(text)
+        #
+        #             if hero.health_points - monster_damage < 1:
+        #                 text = f"{Hero.name} killed by {monster.name}"
+        #                 fight_history.append(text)
+        #
+        #                 hero.health_points -= monster_damage
+        #                 hero.save()
+        #             hero.health_points -= monster_damage
+        #             hero.save()
+        #
+        #         if monster_attack < randint(1, 6) + hero.defence_bonus:
+        #             text = f"Hero attack first and hit. Monster get damage {hero_damage}. " \
+        #                    f"Monster attack second and miss."
+        #             fight_history.append(text)
+        #
+        #             if monster.health_points - hero_damage < 1:
+        #                 text = f"{monster.name} killed by {hero.name}"
+        #                 fight_history.append(text)
+        #
+        #                 monster.health_points -= hero_damage
+        #                 monster.save()
+        #             monster.health_points -= hero_damage
+        #             monster.save()
+        #         if monster.health_points - hero_damage < 1:
+        #             text = f"Hero attack first and hit. Monster get damage{hero_damage}."
+        #             fight_history.append(text)
+        #
+        #             text = f"{monster.name} killed by {hero.name}"
+        #             fight_history.append(text)
+        #
+        #             monster.health_points -= hero_damage
+        #             monster.save()
+        #         if hero.health_points - hero_damage < 1:
+        #             text = f"Hero attack first and hit. Monster get damage{hero_damage}. " \
+        #                    f"Monster attack second and hit. Hero get damage {monster_damage}."
+        #             fight_history.append(text)
+        #
+        #             text = f"{hero.name} killed by {monster.name}."
+        #             fight_history.append(text)
+        #
+        #             hero.health_points -= monster_damage
+        #             hero.save()
+        #         text = f"Hero attack first and hit. Monster get damage{hero_damage}. Monster attack second and hit. " \
+        #                f"Hero get damage {monster_damage}."
+        #         fight_history.append(text)
 
-                    text = f"Hero attack first and miss. Monster attack second and hit. " \
-                           f"Hero get damage {monster_damage}."
-                    fight_history.append(text)
+                # monster.health_points -= hero_damage
+                # monster.save()
+                # hero.health_points -= monster_damage
+                # hero.save()
 
-                    if hero.health_points - monster_damage < 1:
-                        text = f"{Hero.name} killed by {monster.name}"
-                        fight_history.append(text)
+            # else:
+            #     if monster_attack < randint(1, 6) + hero.defence_bonus:
+            #         if hero_attack < randint(1, 6) + monster.defence_bonus:
+            #             text = "Monster attack first and miss. Hero attack second and miss."
+            #             fight_history.append(text)
 
-                        hero.health_points -= monster_damage
-                        hero.save()
-                    hero.health_points -= monster_damage
-                    hero.save()
-                if monster_attack < randint(1, 6) + hero.defence_bonus:
-                    text = f"Hero attack first and hit. Monster get damage {hero_damage}. " \
-                           f"Monster attack second and miss."
-                    fight_history.append(text)
+                    # text = f"Monster attack first and miss. Hero attack second and hit. " \
+                    #        f"Monster get damage {hero_damage}."
+                    # fight_history.append(text)
 
-                    if monster.health_points - hero_damage < 1:
-                        text = f"{monster.name} killed by {hero.name}"
-                        fight_history.append(text)
-
-                        monster.health_points -= hero_damage
-                        monster.save()
-                    monster.health_points -= hero_damage
-                    monster.save()
-                if monster.health_points - hero_damage < 1:
-                    text = f"Hero attack first and hit. Monster get damage{hero_damage}."
-                    fight_history.append(text)
-
-                    text = f"{monster.name} killed by {hero.name}"
-                    fight_history.append(text)
-
-                    monster.health_points -= hero_damage
-                    monster.save()
-                if hero.health_points - hero_damage < 1:
-                    text = f"Hero attack first and hit. Monster get damage{hero_damage}. " \
-                           f"Monster attack second and hit. Hero get damage {monster_damage}."
-                    fight_history.append(text)
-
-                    text = f"{hero.name} killed by {monster.name}."
-                    fight_history.append(text)
-
-                    hero.health_points -= monster_damage
-                    hero.save()
-                text = f"Hero attack first and hit. Monster get damage{hero_damage}. Monster attack second and hit. " \
-                       f"Hero get damage {monster_damage}."
-                fight_history.append(text)
-
-                monster.health_points -= hero_damage
-                monster.save()
-                hero.health_points -= monster_damage
-                hero.save()
-
-            else:
-                if monster_attack < randint(1, 6) + hero.defence_bonus:
-                    if hero_attack < randint(1, 6) + monster.defence_bonus:
-                        text = "Monster attack first and miss. Hero attack second and miss."
-                        fight_history.append(text)
-
-                    text = f"Monster attack first and miss. Hero attack second and hit. " \
-                           f"Monster get damage {hero_damage}."
-                    fight_history.append(text)
-
-                    if monster.health_points - hero_damage < 1:
-                        text = f"{Monster.name} killed by {hero.name}"
-                        fight_history.append(text)
-
-                        monster.health_points -= hero_damage
-                        monster.save()
-                    monster.health_points -= monster_damage
-                    monster.save()
-                if hero_attack < randint(1, 6) + monster.defence_bonus:
-                    text = f"Monster attack first and hit. Hero get damage {monster_damage}. " \
-                           f"Hero attack second and miss."
-                    fight_history.append(text)
-
-                    if hero.health_points - monster_damage < 1:
-                        text = f"{hero.name} killed by {monster.name}"
-                        fight_history.append(text)
-
-                        hero.health_points -= monster_damage
-                        hero.save()
-                    hero.health_points -= monster_damage
-                    hero.save()
-
-                if hero.health_points - monster_damage < 1:
-                    text = f"Monster attack first and hit. Hero get damage{monster_damage}."
-                    fight_history.append(text)
-
-                    text = f"{hero.name} killed by {monster.name}"
-                    fight_history.append(text)
-
-                    hero.health_points -= monster_damage
-                    hero.save()
-
-                if monster.health_points - hero_damage < 1:
-                    text = f"Monster attack first and hit. Hero get damage{monster_damage}. " \
-                           f"Hero attack second and hit. Monster get damage {hero_damage}."
-                    fight_history.append(text)
-                    text = f"{monster.name} killed by {hero.name}."
-                    fight_history.append(text)
-                    monster.health_points -= hero_damage
-                    monster.save()
-
-                text = f"Monster attack first and hit. hero get damage{monster_damage}. " \
-                       f"Hero attack second and hit. Monster get damage {hero_damage}."
-
-                fight_history.append(text)
-
-                monster.health_points -= hero_damage
-                hero.health_points -= monster_damage
-                hero.save()
-
-        if hero.health_points < 1:
-            monster.health_points = monster.max_health_points
-            monster.save()
-            result = "You loose!"
-            return redirect(reverse('main_site'))
+        #             if monster.health_points - hero_damage < 1:
+        #                 text = f"{Monster.name} killed by {hero.name}"
+        #                 fight_history.append(text)
+        #
+        #                 monster.health_points -= hero_damage
+        #                 monster.save()
+        #             monster.health_points -= monster_damage
+        #             monster.save()
+        #         if hero_attack < randint(1, 6) + monster.defence_bonus:
+        #             text = f"Monster attack first and hit. Hero get damage {monster_damage}. " \
+        #                    f"Hero attack second and miss."
+        #             fight_history.append(text)
+        #
+        #             if hero.health_points - monster_damage < 1:
+        #                 text = f"{hero.name} killed by {monster.name}"
+        #                 fight_history.append(text)
+        #
+        #                 hero.health_points -= monster_damage
+        #                 hero.save()
+        #             hero.health_points -= monster_damage
+        #             hero.save()
+        #
+        #         if hero.health_points - monster_damage < 1:
+        #             text = f"Monster attack first and hit. Hero get damage{monster_damage}."
+        #             fight_history.append(text)
+        #
+        #             text = f"{hero.name} killed by {monster.name}"
+        #             fight_history.append(text)
+        #
+        #             hero.health_points -= monster_damage
+        #             hero.save()
+        #
+        #         if monster.health_points - hero_damage < 1:
+        #             text = f"Monster attack first and hit. Hero get damage{monster_damage}. " \
+        #                    f"Hero attack second and hit. Monster get damage {hero_damage}."
+        #             fight_history.append(text)
+        #             text = f"{monster.name} killed by {hero.name}."
+        #             fight_history.append(text)
+        #             monster.health_points -= hero_damage
+        #             monster.save()
+        #
+        #         text = f"Monster attack first and hit. hero get damage{monster_damage}. " \
+        #                f"Hero attack second and hit. Monster get damage {hero_damage}."
+        #
+        #         fight_history.append(text)
+        #
+        #         monster.health_points -= hero_damage
+        #         hero.health_points -= monster_damage
+        #         hero.save()
+        #
+        # if hero.health_points < 1:
+        #     monster.health_points = monster.max_health_points
+        #     monster.save()
+        #     result = "You loose!"
+        #     return redirect(reverse('main_site'))
 
         gold = monster.damage * 2
         currency.gold += gold
@@ -471,11 +504,11 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
         actual_position.active_position = False
         actual_position.save()
         result = "You Win!!!"
+
         monster_health = monster.health_points
         monster.health_points = monster.max_health_points
         monster.save()
-        print(last_place)
-        print(next_position)
+
         if next_position.position == 1 and last_place > 2:
             next_maze = MazeHero.objects.get(position=Maze.objects.get(position=1).id, hero_id=hero.id)
             next_maze.active_position = True
@@ -502,7 +535,6 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
             new_position = MazeHero.objects.get(active_position=True, hero_id=hero.id)
             new_position.last_position = last_place
             new_position.save()
-
 
         return render(request, 'fight.html', context={
             'maze': maze,
