@@ -1,0 +1,16 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+End maze
+{% endblock title %}
+{% block content %}
+    <ul>
+        <li>{{ result }}</li>
+        <li>monster hp: {{ monster_health }}{{ monster.max_health_points }}</li>
+        <li>hero hp: {{ hero.health_points }} {{ hero.max_health_points }}</li>
+        {% for history in fight_history %}
+            <li>{{ history }}</li>
+        {% endfor %}
+        <li>You beat the maze try again</li>
+        <li><a href="{% url 'main_site' %}" class="fight-button">main</a></li>
+    </ul>
+{% endblock content %}

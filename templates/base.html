@@ -1,39 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>{% block title %}{% endblock title %}</title>
+    <style>
+    @import url('https://fonts.cdnfonts.com/css/apple-chancery');
+    </style>
 </head>
 <body>
-    <header class="page-header">
-        <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
-        <a href={% url 'account' %}>Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
-        <a href={% url 'about' %}>about</a>
-        <a href={% url 'team' %}>team</a>
-        <a href={% url 'login' %}>login</a>
+    <header>
+        <h1>
+            <a href={% url 'demo_page' %} class="logo" >POH </a>
+        </h1>
+        <h2>
+            <a href={% url 'account' %}>Gold:{{ currency.gold }} Diamonds: {{ currency.diamonds }} </a>
+            <a href={% url 'about' %}>About</a>
+            <a href={% url 'team' %}>Team</a>
+        {% if user %}
+            Welcome, {{ user.username }}
+        {% else %}
+            <a href={% url 'login' %}>Login</a>
+        {% endif %}
+        </h2>
+
+
     </header>
 
     <section class="dashboard-section">
-        <div>
-            <ul>
-                <li><a href={% url 'main_site' %} class="side-button">Main </a></li>
-                <li>Current hero: {{ session_hero.name }}</li>
-                <li><a href={% url 'hero_list' %} class="side-button">Hero list</a></li>
-                <li><a href={% url 'armory' %} class="side-button">Armory</a></li>
-                <li><a href={% url 'smith' %} class="side-button">Smith</a></li>
-                <li><a href={% url 'settings' %} class="side-button">Settings</a></li>
-                <li><a href={% url 'logout' %} class="side-button">Logout</a></li>
-            </ul>
-
+        <div class="side-menu">
+            <p>{% if session_hero %}<a href="{% url 'maze_entry' %}">Play</a>{% endif %}</p>
+            <p></p><a href={% url 'main_site' %} class="side-button">Main </a></p>
+            <p>Current hero: {{ session_hero.name }}</p>
+            <p><a href={% url 'hero_list' %} class="side-button">Hero list</a></p>
+            <p><a href={% url 'armory' %} class="side-button">Armory</a></p>
+            <p><a href={% url 'smith' %} class="side-button">Smith</a></p>
+            <p><a href={% url 'settings' %} class="side-button">Settings</a></p>
+            <p><a href={% url 'logout' %} class="side-button">Logout</a></p>
+        </div>
+        <section class="dashboard-background">
+            <section class="dashboard-main">
 
 <!-- //--------------------------- page content -------------------------// -->
 {% block content %}{% endblock content %}
 <!-- //--------------------------- page content end ---------------------// -->
 
-            </div>
-        <footer>
-          <p>&copy; Medieval Adventure Game 2023</p>
-        </footer>
+            </section>
+        </section>
     </section>
+        <footer>
+            <p>&copy; SwiderskJ Studio 2023</p>
+        </footer>
 </body>
 </html>

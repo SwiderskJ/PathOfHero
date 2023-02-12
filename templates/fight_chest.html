@@ -1,0 +1,13 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+Find Chest
+{% endblock title %}
+{% block content %}
+    <ul>
+        <li>chest info</li>
+        <li>awards info</li>
+        <li>stan konta przed {{ begin_currency }} + dodano {{ gold }} = {{ currency.gold }}</li>
+
+        <li><a href="{% url 'maze' %}" class="fight-button">continue</a></li>
+    </ul>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+Maze
+{% endblock title %}
+{% block content %}
+    image
+    <a href="{% url 'pre_fight' left.slug %}">Left</a>
+    <a href="{% url 'pre_fight' right.slug %}">Right</a>
+{% endblock content %}

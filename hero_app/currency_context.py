@@ -18,7 +18,18 @@ def hero(request):
     if request.session.get('actual_hero') is None:
         return {}
     session_hero = request.session['actual_hero']
-    session_hero = Hero.objects.get(id=session_hero)
+    if Hero.objects.filter(id=session_hero) is None:
+        return {}
+    session_hero = Hero.objects.filter(id=session_hero)[0]
     return {
         'session_hero': session_hero
+    }
+
+
+def user(request):
+    if not request.user.is_authenticated:
+        return {}
+
+    return {
+        'user': request.user,
     }

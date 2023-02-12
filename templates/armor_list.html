@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Add armor
+Armory
 {% endblock title %}
 {% block content %}
 <form method="post">{% csrf_token %}
@@ -10,12 +10,10 @@ Add armor
         {% else %}
             Armors:
             {% for armor in armors %}
-                <ul>
-                    <li>Name: {{ armor.name }}</li>
-                    <li>Armor description: {{ armor.description }}</li>
-                    <li>Price: {{ armor.price }}
-                    <a href={% url 'armor_detail' armor.id %} class="details-button">Details</a></li>
-                </ul>
+
+                <p>Name: {{ armor.name }} Armor description: {{ armor.description }} Price: {{ armor.price }}
+                    <a href={% url 'armor_detail' armor.id %} class="details-button">Details</a></p>
+
             {% endfor %}
         {% endif %}
     </ul>

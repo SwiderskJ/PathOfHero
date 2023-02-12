@@ -3,34 +3,38 @@
 Hero detail
 {% endblock title %}
 {% block content %}
-<form method="post">{% csrf_token %}
-    <ul>
-        <li>Name: {{ hero.name }}</li>
-        <li>Race: {{ hero.get_race_display }}</li>
-        <li>Experience_points: {{ hero.experience.points }}</li>
-        <li>Level: {{ hero.level }}</li>
-        <li>Health_points: {{ hero.health_points }}/{{ hero.max_health_points }}</li>
-        <li><input type="submit" value="Select as active"></li>
-        <li>Strength: {{ hero.strength }}</li>
-        <li>Dexterity: {{ hero.dexterity}}</li>
-        <li>Wisdom: {{ hero.wisdom }}</li>
-        <li>Endurance: {{ hero.endurance }}</li>
-    </ul>
-        <li>Select Weapon:</li>
-        <li><select name="weapon" id="weapon">
+<form method="post" class="hero-detail">{% csrf_token %}
+    <section>
+        <p>Name: {{ hero.name }}</p>
+        <p>Race: {{ hero.get_race_display }}</p>
+        <p>Experience_points: {{ hero.experience.points }}</p>
+        <p>Level: {{ hero.level }}</p>
+        <p>Health_points: {{ hero.health_points }}/{{ hero.max_health_points }}</p>
+        <p><input type="submit" value="Select as active"></p>
+    </section>
+    <section>
+        <p>Strength: {{ hero.strength }}</p>
+        <p>Dexterity: {{ hero.dexterity}}</p>
+        <p>Wisdom: {{ hero.wisdom }}</p>
+        <p>Endurance: {{ hero.endurance }}</p>
+    </section>
+    <section>
+        <p>Select Weapon:</p>
+        <p><select name="weapon" id="weapon">
             {% for weapon in weapons %}
                 <option value="{{ weapon.id }}">{{ weapon.bought_weapons.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Select">
-        </li>
-        <li>Select Armor:</li>
-        <li><select name="armor" id="armor">
+        </p>
+        <p>Select Armor:</p>
+        <p><select name="armor" id="armor">
             {% for armor in armors %}
                 <option value="{{ armor.id }}">{{ armor.bought_armors.name }}</option>
             {% endfor %}
             </select>
             <input type="submit" value="Select">
-        </li>
+        </p>
+    </section>
 </form>
 {% endblock content %}

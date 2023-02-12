@@ -1,4 +1,5 @@
 from django.db import models
+
 DICE = (
     (1, 3),
     (2, 4),
@@ -28,3 +29,6 @@ class Monster(models.Model):
     attack_bonus = models.IntegerField(default=0)
     defence_bonus = models.IntegerField(default=0)
     damage_bonus = models.IntegerField(default=0)
+    slug = models.CharField(max_length=200, unique=True, default=0)
+
+

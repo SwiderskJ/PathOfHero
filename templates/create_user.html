@@ -1,23 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <link rel="stylesheet" href="{% static "/css/login.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <style>
+    @import url('https://fonts.cdnfonts.com/css/apple-chancery');
+    </style>
+    <title>register</title>
 </head>
 <body>
-    <header class="page-header">
-            <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
-            <a href={% url 'about' %}>about</a>
-            <a href={% url 'team' %}>team</a>
-            <a href={% url 'login' %}>login</a>
+    <header>
+        <h1>
+            <a href={% url 'demo_page' %} class="logo" >POH </a>
+        </h1>
+        <h2>
+            <a href={% url 'about' %}>About</a>
+            <a href={% url 'team' %}>Team</a>
+            <a href={% url 'login' %}>Login</a>
+        </h2>
     </header>
-    <form method="post">{% csrf_token %}
-        <p>Registration</p>
-     {{ form }}
-        <input type="submit" value="Register account">
-    </form>
-     <footer>
-        <p>&copy; Medieval Adventure Game 2023</p>
+    <section class="dashboard-section">
+        <form method="post">{% csrf_token %}
+            <p>Registration</p>
+            {{ form.as_p }}
+            <input type="submit" value="Register account" class="button">
+        </form>
+    </section>
+    <footer>
+        <p>&copy; SwiderskJ Studio 2023</p>
     </footer>
 </body>
 </html>

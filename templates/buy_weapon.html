@@ -18,7 +18,7 @@ Buy Weapon
             {% if gold_balance < 0 %}
                 <li>Gold: {{ currency.gold }} - {{ weapon.price }} = {{ gold_balance }}</li>
                 <li>You don't have enough gold</li>
-                <li><a href={% url 'main_site_site' %}>main_site</a></li>
+                <li><a href={% url 'main_site' %}>main_site</a></li>
             {% elif diamond_balance < 0 %}
                 <li>Diamonds: {{ currency.diamonds }} - {{ weapon.diamonds }} = {{ diamond_balance }}</li>
                 <li>You don't have enough diamonds</li>

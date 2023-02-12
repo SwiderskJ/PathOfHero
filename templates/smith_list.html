@@ -8,14 +8,15 @@ Weapons list
         {% if weapons_number == 0 %}
             Fill weapons
         {% else %}
-            Armors:
+            Weapons:
             {% for weapon in weapons %}
-                <ul>
-                    <li>Name: {{ weapon.name }}</li>
-                    <li>Weapon description: {{ weapon.description }}</li>
-                    <li>Price: {{ weapon.price }}
-                    <a href={% url 'weapon_details' weapon.id %} class="details-button">Details</a></li>
-                </ul>
+
+                    <p>Name: {{ weapon.name }} Weapon description: {{ weapon.description }} Price: {{ weapon.price }}
+                    <a href={% url 'weapon_details' weapon.id %} class="details-button">Details</a></p>
+
+
+
+
             {% endfor %}
         {% endif %}
     </ul>

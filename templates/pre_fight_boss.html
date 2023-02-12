@@ -1,0 +1,12 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+Maze entry
+{% endblock title %}
+{% block content %}
+    <ul>
+        <li>Your hero {{ hero.name }} see something inside</li>
+        <li>Potential difficultly : {{ message }}</li>
+        <li><a href="{% url 'fight' monster.slug %}" class="fight-button">Begin fight</a></li>
+        <li><a href="{% url 'main_site' %}" class="run-away-button">Run Away</a></li>
+    </ul>
+{% endblock content %}
