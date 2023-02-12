@@ -11,8 +11,9 @@ Armory
             Armors:
             {% for armor in armors %}
 
-                <p>Name: {{ armor.name }} Armor description: {{ armor.description }} Price: {{ armor.price }}
-                    <a href={% url 'armor_detail' armor.id %} class="details-button">Details</a></p>
+                <p>Name: {{ armor.name }} Armor description: {{ armor.description }} Price: {{ armor.price }} Diamonds:
+                    {{ armor.diamonds }} <a href={% url 'armor_detail' armor.id %}
+                                                    class="details-button">Details</a></p>
 
             {% endfor %}
         {% endif %}

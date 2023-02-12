@@ -3,12 +3,13 @@ from django.views import View
 
 from gameplay_app.models import Maze
 from hero_app.forms import CreateHeroForm, ArmorAddForm, WeaponAddForm
+from hero_app.functions import create_hero
 from hero_app.models import HERO_RACE
 from hero_app.models import Hero, Armor, Weapon, ArmorHero, WeaponHero
 from user_app.models import UserCurrency
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from random import randint
+
 
 
 class HeroListView(LoginRequiredMixin, View):  # Displays a list of heroes belonging to the current user.
@@ -53,6 +54,8 @@ class CreateHeroView(LoginRequiredMixin, View):  # Is used to create new heroes
                 race=data.get('race'),
                 user=request.user
             )
+            create_hero(hero)
+
             maze = Maze.objects.get(position=1)
             request.session['actual_hero'] = hero.id
             maze.hero.add(hero)
@@ -70,130 +73,6 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
 
         bought_armors = ArmorHero.objects.filter(hero_id=hero_id)
         bought_weapons = WeaponHero.objects.filter(hero_id=hero_id)
-
-        strenght_list = []
-
-        for item in range(1, 4):
-            strenght_list.append(randint(1,6))
-        print(strenght_list)
-        strenght_list.remove(min(strenght_list))
-
-        strenght = 0
-        for item in strenght_list:
-            strenght += item
-        if strenght < 6:
-            strenght = 6
-        hero.strength = strenght
-
-        dexterity_list = []
-
-        for item in range(1, 4):
-            dexterity_list.append(randint(1, 6))
-        print(dexterity_list)
-        dexterity_list.remove(min(dexterity_list))
-
-        dexterity = 0
-        for item in dexterity_list:
-            dexterity += item
-        if dexterity < 6:
-            dexterity = 6
-        hero.dexterity = dexterity
-
-        endurance_list = []
-
-        for item in range(1, 4):
-            endurance_list.append(randint(1, 6))
-        print(endurance_list)
-        endurance_list.remove(min(endurance_list))
-
-        endurance = 0
-        for item in endurance_list:
-            endurance += item
-        if endurance < 6:
-            endurance = 6
-        hero.endurance = endurance
-
-        intelligence_list = []
-
-        for item in range(1, 4):
-            intelligence_list.append(randint(1, 6))
-        print(intelligence_list)
-        intelligence_list.remove(min(intelligence_list))
-
-        intelligence = 0
-        for item in intelligence_list:
-            strenght += item
-        if intelligence < 6:
-            intelligence = 6
-        hero.intelligence = intelligence
-
-        wisdom_list = []
-
-        for item in range(1, 4):
-            wisdom_list.append(randint(1, 6))
-        print(wisdom_list)
-        wisdom_list.remove(min(wisdom_list))
-
-        wisdom = 0
-        for item in wisdom_list:
-            wisdom += item
-        if wisdom < 6:
-            wisdom = 6
-
-        hero.wisdom = wisdom
-
-        charisma_list = []
-
-        for item in range(1, 4):
-            charisma_list.append(randint(1, 6))
-        print(charisma_list)
-        charisma_list.remove(min(charisma_list))
-
-        charisma = 0
-        for item in charisma_list:
-            charisma += item
-        if charisma < 6:
-            charisma = 6
-        hero.charisma = charisma
-
-
-        # Generating race modification
-        if hero.race == 2:
-            hero.endurance += 2
-            hero.charisma -= 2
-        if hero.race == 3:
-            hero.dexterity += 2
-            hero.endurance -= 2
-        if hero.race == 4:
-            hero.endurance += 2
-            hero.strength -= 2
-        if hero.race == 6:
-            hero.strength += 2
-            hero.intelligence -= 2
-            hero.charisma -= 2
-        if hero.race == 7:
-            hero.dexterity += 2
-            hero.strength -= 2
-
-        # Calculates various statistics for the hero.
-        hero.strength_bonus = round((hero.strength - 10) / 2)
-        hero.dexterity_bonus = round((hero.dexterity - 10) / 2)
-        hero.endurance_bonus = round((hero.endurance - 10) / 2)
-        hero.intelligence_bonus = round((hero.intelligence -10) /2)
-        hero.wisdom_bonus = round((hero.wisdom - 10) / 2)
-        hero.charisma_bonus = round((hero.charisma - 10) / 2)
-
-        hero.max_health_points = round(12 + round(hero.level * 3) + hero.endurance_bonus)
-
-        hero.attack_bonus = hero.level + hero.strength_bonus
-        hero.defence_bonus = hero.level + hero.dexterity_bonus
-        hero.initiative = round((hero.intelligence_bonus + hero.wisdom_bonus + hero.charisma_bonus) / 3)
-        hero.damage_bonus = hero.strength_bonus
-        hero.damage = 3
-        numbers_of_attacks = int(round(hero.level / 4))
-        if numbers_of_attacks < 1:
-            numbers_of_attacks = 1
-        hero.number_of_attacks = int(round(hero.level / 4))
 
         # The method also retrieves the selected armor and weapon for the hero and updates the hero's statistics.
         actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
@@ -216,7 +95,7 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
             if actual_weapon:
                 hero.damage_bonus = hero.strength_bonus + actual_weapon.damage_bonus
                 hero.attack_bonus = hero.strength_bonus + actual_weapon.attack_bonus
-
+                hero.number_of_attacks = int(round(hero.level / 4)) + actual_weapon.number_of_attacks
                 hero.damage = actual_weapon.damage
 
         hero.save()
@@ -346,13 +225,12 @@ class AddArmorView(LoginRequiredMixin, View):
                 name=data.get('name'),
                 description=data.get('description'),
                 defence_bonus=data.get('defence_bonus'),
-                attack_bonus=data.get('attack_bonus'),
                 damage_reduction=data.get('damage_reduction'),
                 price=data.get('price'),
                 diamonds=data.get('diamonds')
             )
 
-            return redirect(reverse('armory'))
+            return redirect(reverse('add_armor'))
 
 
 class SmithListView(LoginRequiredMixin, View):  # Displays a list of all weapons in the database.
@@ -404,9 +282,10 @@ class WeaponDetailView(LoginRequiredMixin, View):  # Displays detailed informati
                 })
 
         weapon = Weapon.objects.get(id=weapon_id)
-
+        weapon_attack = weapon.number_of_attacks + 1
         return render(request, 'weapon_detail.html', {
             'weapon': weapon,
+            'weapon_attack': weapon_attack,
         })
 
     def post(self, request, weapon_id):
@@ -439,14 +318,15 @@ class AddWeaponView(LoginRequiredMixin, View):
             Weapon.objects.create(
                 name=data.get('name'),
                 description=data.get('description'),
-                defence_bonus=data.get('defence_bonus'),
                 attack_bonus=data.get('attack_bonus'),
                 damage_bonus=data.get('damage_bonus'),
+                damage=data.get('damage'),
                 price=data.get('price'),
-                diamonds=data.get('diamonds')
+                diamonds=data.get('diamonds'),
+                number_of_attacks=data.get('number_of_attacks')
             )
 
-            return redirect(reverse('smith'))
+            return redirect(reverse('add_weapon'))
 
 
 class BuyWeaponView(LoginRequiredMixin, View):  # Used to allow users to purchase weapon.
@@ -466,7 +346,7 @@ class BuyWeaponView(LoginRequiredMixin, View):  # Used to allow users to purchas
             context={
                 'weapon': weapon,
                 'gold_balance': gold_balance,
-                'diamond_balance': diamonds_balance
+                'diamond_balance': diamonds_balance,
             })
 
     def post(self, request, weapon_id):

@@ -13,10 +13,20 @@ Hero detail
         <p><input type="submit" value="Select as active"></p>
     </section>
     <section>
-        <p>Strength: {{ hero.strength }}</p>
-        <p>Dexterity: {{ hero.dexterity}}</p>
-        <p>Wisdom: {{ hero.wisdom }}</p>
-        <p>Endurance: {{ hero.endurance }}</p>
+        <p>Statistics          Bonus</p>
+        <p>Strength: {{ hero.strength }}    {{ hero.strength_bonus }}</p>
+        <p>Dexterity: {{ hero.dexterity}}  {{ hero.dexterity_bonus }}</p>
+        <p>Endurance: {{ hero.endurance }}  {{ hero.endurance_bonus }}</p>
+        <p>Intelligence: {{ hero.intelligence }}  {{ hero.intelligence_bonus }}</p>
+        <p>Wisdom: {{ hero.wisdom }}  {{ hero.wisdom_bonus }}</p>
+        <p>Charisma: {{ hero.charisma }}  {{ hero.charisma_bonus }}</p>
+    </section>
+    <section>
+        <p>Attack bonus: {{ hero.attack_bonus }}</p>
+        <p>Defense bonus: {{ hero.defence_bonus }}</p>
+        <p>Damage bonus: {{ hero.damage_bonus }}</p>
+        <p>Damage reduction: {{ hero.damage_reduction }}</p>
+        <p>Initiative bonus: {{ hero.initiative }}</p>
     </section>
     <section>
         <p>Select Weapon:</p>

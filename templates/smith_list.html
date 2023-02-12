@@ -12,6 +12,7 @@ Weapons list
             {% for weapon in weapons %}
 
                     <p>Name: {{ weapon.name }} Weapon description: {{ weapon.description }} Price: {{ weapon.price }}
+                        Diamonds: {{ weapon.diamonds }}
                     <a href={% url 'weapon_details' weapon.id %} class="details-button">Details</a></p>
 
 
