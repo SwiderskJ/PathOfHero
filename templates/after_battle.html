@@ -1,0 +1,14 @@
+{% extends 'base_maze.html' %}
+{% block title %}
+After battle
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <ul>
+        <li>{% if hero.health_points > 0 %}
+            <a href="{% url 'maze' %}">Continue</a>
+                {% endif %}</li>
+        <li><a href="{% url 'main_site' %}">Exit to main</a></li>
+    </ul>
+</form>
+{% endblock content %}
