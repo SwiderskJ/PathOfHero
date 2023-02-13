@@ -7,12 +7,15 @@ Weapon Detail
    <ul>
        <li>Name: {{ weapon.name }}</li>
        <li>Description: {{ weapon.description }}</li>
-       <li>Damage bonus: {{ weapon.damage_bonus}}</li>
-       <li>Defence bonus: {{ weapon.defence_bonus }}</li>
        <li>Attack bonus: {{ weapon.attack_bonus }}</li>
+       <li>Damage: {{ weapon_attack }}d{{ weapon.damage }}</li>
+       <li>Number of attacks: {{ weapon.number_of_attacks }}</li>
+       <li>Damage bonus: {{ weapon.damage_bonus}}</li>
+
        <li>Price: {{ weapon.price }}</li>
        <li>Diamonds: {{ weapon.diamonds }}</li>
        <li><a href={% url 'buy_weapon' weapon.id %}>Buy</a></li>
+       <li><a href={% url 'smith' %}>back</a></li>
    </ul>
 </form>
 {% endblock content %}

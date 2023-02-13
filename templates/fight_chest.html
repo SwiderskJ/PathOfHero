@@ -3,11 +3,13 @@
 Find Chest
 {% endblock title %}
 {% block content %}
+<form method="post">{% csrf_token %}
     <ul>
         <li>chest info</li>
         <li>awards info</li>
         <li>stan konta przed {{ begin_currency }} + dodano {{ gold }} = {{ currency.gold }}</li>
 
-        <li><a href="{% url 'maze' %}" class="fight-button">continue</a></li>
+        <li><input type="submit" value="Continue"></li>
     </ul>
+</form>
 {% endblock content %}

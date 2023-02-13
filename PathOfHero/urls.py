@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path
 from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDetailView, BuyWeaponView, \
-    ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView, HeroSelectView
+    ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView, HeroSelectView, \
+    HealView
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
-from monster_app.views import CreateMonsterView, MonsterList, EditMonsterView
+from monster_app.views import CreateMonsterView, MonsterList
 from gameplay_app.views import EntryMazeView, MazeIntroFightView, MazeMovementView, FightView
 
 urlpatterns = [
@@ -32,9 +33,10 @@ urlpatterns = [
     path('add_weapon/', AddWeaponView.as_view(), name='add_weapon'),
     path('create_monster/', CreateMonsterView.as_view(), name='create_monster'),
     path('monster_list/', MonsterList.as_view(), name='monster_list'),
-    path('edit_monster/<slug:slug>/', EditMonsterView.as_view(), name='edit_monster'),
+    # path('edit_monster/<slug:slug>/', EditMonsterView.as_view(), name='edit_monster'),
     path('entry_maze/', EntryMazeView.as_view(), name='maze_entry'),
     path('maze/', MazeMovementView.as_view(), name='maze'),
     path('prefight/<slug:slug>/', MazeIntroFightView.as_view(), name='pre_fight'),
-    path('fight/<slug:slug>/', FightView.as_view(), name='fight')
+    path('fight/<slug:slug>/', FightView.as_view(), name='fight'),
+    path('hospital/<int:hero_id>/', HealView.as_view(), name='heal'),
 ]

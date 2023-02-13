@@ -3,6 +3,7 @@ from django.views import View
 
 from gameplay_app.models import Maze
 from hero_app.forms import CreateHeroForm, ArmorAddForm, WeaponAddForm
+from hero_app.functions import create_hero
 from hero_app.models import HERO_RACE
 from hero_app.models import Hero, Armor, Weapon, ArmorHero, WeaponHero
 from user_app.models import UserCurrency
@@ -10,10 +11,11 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+
 class HeroListView(LoginRequiredMixin, View):  # Displays a list of heroes belonging to the current user.
     login_url = reverse_lazy('login')
 
-    def get(self, request): # The get method of the view retrieves all heroes belonging to the user.
+    def get(self, request):  # The get method of the view retrieves all heroes belonging to the user.
         hero_list = Hero.objects.filter(user=request.user).order_by('is_alive', '-level')
         hero_list_count = hero_list.count()
 
@@ -47,19 +49,13 @@ class CreateHeroView(LoginRequiredMixin, View):  # Is used to create new heroes
         if form.is_valid():
             data = form.cleaned_data
 
-            max_health_points = data.get('endurance') * 4
-
             hero = Hero.objects.create(
                 name=data.get('name'),
                 race=data.get('race'),
-                strength=data.get('strength'),
-                dexterity=data.get('dexterity'),
-                wisdom=data.get('wisdom'),
-                endurance=data.get('endurance'),
-                health_points=max_health_points,
-                max_health_points=max_health_points,
                 user=request.user
             )
+            create_hero(hero)
+
             maze = Maze.objects.get(position=1)
             request.session['actual_hero'] = hero.id
             maze.hero.add(hero)
@@ -78,14 +74,6 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
         bought_armors = ArmorHero.objects.filter(hero_id=hero_id)
         bought_weapons = WeaponHero.objects.filter(hero_id=hero_id)
 
-        # Calculates various statistics for the hero.
-        hero.damage_bonus = hero.strength
-        hero.attack_bonus = hero.dexterity
-        hero.defence_bonus = hero.wisdom
-        hero.initiative = hero.wisdom + hero.dexterity
-        hero.damage = 3
-        hero.number_of_attacks = int(round(hero.dexterity/10))
-
         # The method also retrieves the selected armor and weapon for the hero and updates the hero's statistics.
         actual_armor = ArmorHero.objects.filter(hero_id=hero_id, selected=True)
 
@@ -96,8 +84,7 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
             if actual_armor:
 
                 hero.damage_reduction = actual_armor.damage_reduction
-                hero.attack_bonus = hero.dexterity + actual_armor.attack_bonus
-                hero.defence_bonus = hero.wisdom + actual_armor.defence_bonus
+                hero.defence_bonus = hero.level + hero.dexterity_bonus + actual_armor.defence_bonus
 
         actual_weapon = WeaponHero.objects.filter(hero_id=hero_id, selected=True)
 
@@ -106,16 +93,10 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
             actual_weapon = actual_weapon.bought_weapons
 
             if actual_weapon:
-                hero.damage_bonus = hero.strength + actual_weapon.damage_bonus
-                hero.attack_bonus = hero.dexterity + actual_weapon.attack_bonus
-                hero.defence_bonus = hero.wisdom + actual_weapon.defence_bonus
+                hero.damage_bonus = hero.strength_bonus + actual_weapon.damage_bonus
+                hero.attack_bonus = hero.strength_bonus + actual_weapon.attack_bonus
+                hero.number_of_attacks = int(round(hero.level / 4)) + actual_weapon.number_of_attacks
                 hero.damage = actual_weapon.damage
-
-        if actual_weapon and actual_armor:
-            hero.damage_bonus = hero.strength + actual_weapon.damage_bonus
-            hero.attack_bonus = hero.dexterity + actual_weapon.attack_bonus + actual_armor.attack_bonus
-            hero.defence_bonus = hero.wisdom + actual_weapon.defence_bonus + actual_armor.defence_bonus
-            hero.damage = actual_weapon.damage
 
         hero.save()
 
@@ -244,13 +225,12 @@ class AddArmorView(LoginRequiredMixin, View):
                 name=data.get('name'),
                 description=data.get('description'),
                 defence_bonus=data.get('defence_bonus'),
-                attack_bonus=data.get('attack_bonus'),
                 damage_reduction=data.get('damage_reduction'),
                 price=data.get('price'),
                 diamonds=data.get('diamonds')
             )
 
-            return redirect(reverse('armory'))
+            return redirect(reverse('add_armor'))
 
 
 class SmithListView(LoginRequiredMixin, View):  # Displays a list of all weapons in the database.
@@ -302,9 +282,10 @@ class WeaponDetailView(LoginRequiredMixin, View):  # Displays detailed informati
                 })
 
         weapon = Weapon.objects.get(id=weapon_id)
-
+        weapon_attack = weapon.number_of_attacks + 1
         return render(request, 'weapon_detail.html', {
             'weapon': weapon,
+            'weapon_attack': weapon_attack,
         })
 
     def post(self, request, weapon_id):
@@ -337,14 +318,15 @@ class AddWeaponView(LoginRequiredMixin, View):
             Weapon.objects.create(
                 name=data.get('name'),
                 description=data.get('description'),
-                defence_bonus=data.get('defence_bonus'),
                 attack_bonus=data.get('attack_bonus'),
                 damage_bonus=data.get('damage_bonus'),
+                damage=data.get('damage'),
                 price=data.get('price'),
-                diamonds=data.get('diamonds')
+                diamonds=data.get('diamonds'),
+                number_of_attacks=data.get('number_of_attacks')
             )
 
-            return redirect(reverse('smith'))
+            return redirect(reverse('add_weapon'))
 
 
 class BuyWeaponView(LoginRequiredMixin, View):  # Used to allow users to purchase weapon.
@@ -364,7 +346,7 @@ class BuyWeaponView(LoginRequiredMixin, View):  # Used to allow users to purchas
             context={
                 'weapon': weapon,
                 'gold_balance': gold_balance,
-                'diamond_balance': diamonds_balance
+                'diamond_balance': diamonds_balance,
             })
 
     def post(self, request, weapon_id):
@@ -435,3 +417,16 @@ class HeroSelectView(LoginRequiredMixin, View):  # Used to allow users to select
         # The get method sets the actual_hero in the session to the hero_id.
         request.session['actual_hero'] = hero_id
         return redirect(reverse('hero_list'))
+
+
+class HealView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+
+    def get(self, request, hero_id):
+        hero = Hero.objects.get(id=hero_id)
+        hero.health_points = hero.max_health_points
+        hero.save()
+        currency = UserCurrency.objects.get(user=request.user.id)
+        currency.gold -= 100
+        currency.save()
+        return redirect('hero_list')
