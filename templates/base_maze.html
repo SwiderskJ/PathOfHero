@@ -1,18 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/fight.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>{% block title %}{% endblock title %}</title>
+    <style>
+    @import url('https://fonts.cdnfonts.com/css/apple-chancery');
+    </style>
 </head>
 <body>
     <header class="page-header">
         <a href={% url 'demo_page' %} class="logo">PathOfHero</a>
-        <a href={% url 'main_site' %}>Main</a>
         {% if user %}
             Hello, {{ user.username }}
         {% else %}
         <a href={% url 'login' %}>login</a>
         {% endif %}
+
     </header>
 
 

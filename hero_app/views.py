@@ -417,3 +417,16 @@ class HeroSelectView(LoginRequiredMixin, View):  # Used to allow users to select
         # The get method sets the actual_hero in the session to the hero_id.
         request.session['actual_hero'] = hero_id
         return redirect(reverse('hero_list'))
+
+
+class HealView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('login')
+
+    def get(self, request, hero_id):
+        hero = Hero.objects.get(id=hero_id)
+        hero.health_points = hero.max_health_points
+        hero.save()
+        currency = UserCurrency.objects.get(user=request.user.id)
+        currency.gold -= 100
+        currency.save()
+        return redirect('hero_list')

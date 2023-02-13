@@ -9,16 +9,15 @@ Weapons list
             Fill weapons
         {% else %}
             Weapons:
-            {% for weapon in weapons %}
+            <section class="scroll">
+                {% for weapon in weapons %}
 
-                    <p>Name: {{ weapon.name }} Weapon description: {{ weapon.description }} Price: {{ weapon.price }}
-                        Diamonds: {{ weapon.diamonds }}
+                    <p>Name: {{ weapon.name }} Weapon description: {{ weapon.description }}
+                        Price: {{ weapon.price }} Diamonds: {{ weapon.diamonds }}
                     <a href={% url 'weapon_details' weapon.id %} class="details-button">Details</a></p>
 
-
-
-
-            {% endfor %}
+                {% endfor %}
+            </section>
         {% endif %}
     </ul>
 

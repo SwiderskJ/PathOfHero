@@ -10,6 +10,8 @@ Hero detail
         <p>Experience_points: {{ hero.experience.points }}</p>
         <p>Level: {{ hero.level }}</p>
         <p>Health_points: {{ hero.health_points }}/{{ hero.max_health_points }}</p>
+        <p>{% if hero.health_points < hero.max_health_points %}
+            <a href="{% url 'heal' hero.id %}>">Heal cost 100 gold</a>{% endif %}</p>
         <p><input type="submit" value="Select as active"></p>
     </section>
     <section>

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from hero_app.views import HeroListView, CreateHeroView, BuyArmorView, ArmorDetailView, BuyWeaponView, \
-    ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView, HeroSelectView
+    ArmoryListView, SmithListView, AddArmorView, AddWeaponView, WeaponDetailView, HeroDetailView, HeroSelectView, \
+    HealView
 from user_app.views import DemoPageView, LoginView, LogoutView, MainView, UserCreateView, AboutView, TeamView, \
     BankAccountView, SettingsView
 from monster_app.views import CreateMonsterView, MonsterList
@@ -36,5 +37,6 @@ urlpatterns = [
     path('entry_maze/', EntryMazeView.as_view(), name='maze_entry'),
     path('maze/', MazeMovementView.as_view(), name='maze'),
     path('prefight/<slug:slug>/', MazeIntroFightView.as_view(), name='pre_fight'),
-    path('fight/<slug:slug>/', FightView.as_view(), name='fight')
+    path('fight/<slug:slug>/', FightView.as_view(), name='fight'),
+    path('hospital/<int:hero_id>/', HealView.as_view(), name='heal'),
 ]

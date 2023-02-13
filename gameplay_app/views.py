@@ -24,7 +24,8 @@ class EntryMazeView(LoginRequiredMixin, View):  # First view when user enter fir
         # The hero object is retrieved from the database using the Hero model and the id stored in the session.
         hero = request.session.get('actual_hero')
         hero = Hero.objects.get(id=hero)
-
+        if hero.health_points < 0:
+            return redirect(reverse('hero_list'))
         # Actual position of the hero in the maze is determined by querying the MazeHero model for the hero.
         actual_position = MazeHero.objects.get(hero_id=hero.id, active_position=True)
         actual_position = Maze.objects.get(position=actual_position.position.position)
@@ -214,7 +215,7 @@ class MazeMovementView(LoginRequiredMixin, View):  # Simulate moving on Maze.
                 if actual_position == last_position:
                     maze = Maze.objects.get(position=actual_position + 1)
 
-        print(maze)
+
         # If events is not in [2, 3, 4], the maze.html template will be rendered.
         return render(request, 'maze.html', context={
             "maze": maze,
@@ -336,15 +337,16 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
         fight_history = []
         monster_health = monster.health_points
         hero_health = hero.health_points
+
         while hero_health > 0 or monster_health > 0:
             if hero_health < 1:
                 break
-            if monster_health< 1:
+            if monster_health < 1:
                 break
 
             monster_damage = 0
             item = 0
-            while item == monster.number_of_attacks:
+            while item < monster.number_of_attacks:
                 monster_damage += dice(monster.damage) + monster.damage_bonus
                 item += 1
 
@@ -353,8 +355,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
             while item == hero.number_of_attacks:
                 hero_damage += dice(hero.damage) + hero.damage_bonus
                 item += 1
-                print(hero_damage)
-            print(hero_damage)
+
 
             hero_attack = dice(20) + hero.attack_bonus
             monster_attack = dice(20) + monster.attack_bonus
@@ -375,8 +376,8 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                            f"Hero get damage {monster_damage}."
                     fight_history.append(text)
 
-                    if hero.health_points - monster_damage < 1:
-                        text = f"{Hero.name} killed by {monster.name}"
+                    if hero_health - monster_damage < 1:
+                        text = f"{hero.name} killed by {monster.name}"
                         fight_history.append(text)
 
                         hero_health -= monster_damage
@@ -391,7 +392,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                         text = f"Hero attack first and hit. Monster get damage {hero_damage}."
                         fight_history.append(text)
 
-                        if monster.health_points - hero_damage < 1:
+                        if monster_health - hero_damage < 1:
                             text = f"{monster.name} killed by {hero.name}"
                             fight_history.append(text)
 
@@ -406,7 +407,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                         text = f"Hero attack first and hit. Monster get damage {hero_damage}"
                         fight_history.append(text)
 
-                        if monster.health_points - hero_damage < 1:
+                        if monster_health - hero_damage < 1:
                             text = f"{monster.name} killed by {hero.name}"
                             fight_history.append(text)
 
@@ -418,7 +419,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                         text = f"Monster attack second and hit. Hero get damage {monster_damage}"
                         fight_history.append(text)
 
-                        if hero.health_points - monster_damage < 1:
+                        if hero_health - monster_damage < 1:
                             text = f"{hero.name} killed by {monster.name}"
                             fight_history.append(text)
 
@@ -438,7 +439,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                            f"Monster get damage {hero_damage}."
                         fight_history.append(text)
 
-                        if monster.health_points - hero_damage < 1:
+                        if monster_health - hero_damage < 1:
                             text = f"{monster.name} killed by {hero.name}"
                             fight_history.append(text)
 
@@ -454,7 +455,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                         text = f"Monster attack first and hit. Hero get damage {monster_damage}."
                         fight_history.append(text)
 
-                        if hero.health_points - monster_damage < 1:
+                        if hero_health - monster_damage < 1:
                             text = f"{hero.name} killed by {monster.name}"
                             fight_history.append(text)
 
@@ -469,7 +470,7 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                         text = f"Monster attack first and hit. Hero get damage {monster_damage}"
                         fight_history.append(text)
 
-                        if hero.health_points - monster_damage < 1:
+                        if hero_health - monster_damage < 1:
                             text = f"{hero.name} killed by {monster.name}"
                             fight_history.append(text)
 
@@ -477,9 +478,10 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                             break
                         else:
                             text = f"Hero attack second and hit. Monster get damage {hero_damage}"
+                            hero_health -= monster_damage
                             fight_history.append(text)
 
-                            if monster.health_points - hero_damage < 1:
+                            if monster_health - hero_damage < 1:
                                 text = f"{monster.name} killed by {hero.name}"
                                 fight_history.append(text)
 
