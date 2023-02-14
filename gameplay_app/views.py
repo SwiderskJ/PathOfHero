@@ -507,6 +507,9 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
         currency.gold += monster.prize
         currency.save()
 
+        text = f"You win {monster.prize} gold."
+        fight_history.append(text)
+
         last_place = Maze.objects.get(id=actual_position.position_id).position
         actual_position.active_position = False
         actual_position.save()
@@ -546,14 +549,4 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
             'fight_history': fight_history,
             'monster': monster,
             'monster_health': monster_health
-        })
-
-    def post(self, request, slug):
-        monster = Monster.objects.get(slug=slug)
-        monster.health_points = monster.max_health_points
-        monster.save()
-        hero = request.session.get('actual_hero')
-        hero = Hero.objects.get(id=hero)
-        return render(request, 'after_battle.html', context={
-            'hero': hero,
         })

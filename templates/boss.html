@@ -3,7 +3,9 @@
 Maze
 {% endblock title %}
 {% block content %}
-    image
-    BOSS!
-    <a href="{% url 'pre_fight' maze.slug %}">Forward</a>
+    <div class="maze-endpoint">
+        image
+        BOSS!
+        <a href="{% url 'pre_fight' maze.slug %}">Forward</a>
+    </div>
 {% endblock content %}

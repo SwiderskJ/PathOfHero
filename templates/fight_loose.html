@@ -3,15 +3,25 @@
 Fight
 {% endblock title %}
 {% block content %}
-<form method="post">{% csrf_token %}
-    <ul>
-        <li>{{ result }}</li>
-        <li>monster hp: {{ monster_health }}/{{ monster.max_health_points }}</li>
-        <li>hero hp: {{ hero.health_points }}/{{ hero.max_health_points }}</li>
-        {% for history in fight_history %}
-            <li>{{ history }}</li>
-        {% endfor %}
-        <li><input type="submit" value="Continue"></li>
-    </ul>
-</form>
+<div class="fight-background">
+    <div class="fight-body">
+        <section>
+            <p class="fight-result">{{ result }}</p>
+            <section class="hero-monster-fight">
+                <p>Monster: {{ monster_health }}/{{ monster.max_health_points }} HP</p>
+                <p>Hero: {{ hero.health_points }}/{{ hero.max_health_points }} HP</p>
+            </section>
+        </section>
+        <section class="fight-down">
+            <div class="fight-history">
+                {% for history in fight_history %}
+                    <p>{{ history }}</p>
+                {% endfor %}
+            </div>
+            <div class="fight-buttons">
+                <p><a href="{% url 'main_site' %}" class="fight-button">Back to main</a></p>
+            </div>
+        </section>
+    </div>
+</div>
 {% endblock content %}
