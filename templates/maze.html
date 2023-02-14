@@ -3,6 +3,9 @@
 Maze
 {% endblock title %}
 {% block content %}
-    image
-    <a href="{% url 'pre_fight' maze.slug %}">Forward</a>
+    <div class="maze-one-way">
+        <section class="button-one-way">
+            <a href="{% url 'pre_fight' maze.slug %}">Forward</a>
+        </section>
+    </div>
 {% endblock content %}

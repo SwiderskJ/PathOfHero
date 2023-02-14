@@ -3,29 +3,27 @@
 Login
 {% endblock title %}
 {% block content %}
-<section method="post">{% csrf_token %}
-    <section class="hero-list">
+    <div class="hero-list">
         {% if number == 0 %}
             <a href="/create_hero/" class="create-hero-button">Create hero</a>
         {% else %}
-            <section class="hero-list-title"
-            <p>Your Heroes:</p>
-            <p><a href="/create_hero/" class="create-hero-button">Create hero</a></p>
+            <section class="hero-list-title">
+                <p>Your Heroes:</p>
+                <p><a href="/create_hero/" class="create-hero-button">Create hero</a></p>
             </section>
-            <section>
-            {% for hero in hero_list %}
-                <p> Name: {{ hero.name }} Level: {{ hero.level }} {{ hero.health_points }}/{{ hero.max_health_points }}
-                    {% if session_hero.id == hero.id %}
-                        Selected
-                    {% else %}
-                        <a href="{% url 'hero_select' hero.id%}" class="select-list-button">Select hero</a>
-                    {% endif %}
-                <p>{% if hero.health_points < hero.max_health_points %}
-                    <a href="{% url 'heal' hero.id %}">Heal cost 100 gold</a>{% endif %} </p>
-                <p><a href={% url 'hero_detail' hero.id %} class="details-button">Details</a></p>
-            </section>
-            {% endfor %}
+            <div class ="hero-list-main">
+                {% for hero in hero_list %}
+                    <p> Name: {{ hero.name }} Level: {{ hero.level }} {{ hero.health_points }}/{{ hero.max_health_points }}
+                        {% if session_hero.id == hero.id %}
+                            Selected
+                        {% else %}
+                            <a href="{% url 'hero_select' hero.id%}" class="select-list-button">Select hero</a>
+                        {% endif %}
+                        {% if hero.health_points < hero.max_health_points %}
+                            <a href="{% url 'heal' hero.id %}">Heal cost 100 gold</a>
+                        {% endif %} <a href={% url 'hero_detail' hero.id %}>Details</a></p>
+                {% endfor %}
+            </div>
         {% endif %}
-    </section>
-</form>
+    </div>
 {% endblock content %}

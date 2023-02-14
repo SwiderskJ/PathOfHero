@@ -99,6 +99,7 @@ color: rgba(255, 255, 255, 0.67);
 
 .main-text {
     padding: 20px;
+    font-size: large;
 }
 
 .hero-list-title {
@@ -110,7 +111,8 @@ color: rgba(255, 255, 255, 0.67);
     height: 500px;
     overflow: scroll;
 }
-.hero-list {
-    
+.hero-list-main {
+    height: 450px;
+    overflow: scroll;
 
 }

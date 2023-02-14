@@ -18,9 +18,14 @@ class CreateMonsterView(LoginRequiredMixin, View):  # This view is used to creat
     login_url = reverse_lazy('login')
 
     def get(self, request):
-        form = MonsterForm()
+        user = request.user
+        if user.is_staff:
+            form = MonsterForm()
 
-        return render(request, 'new_monster.html', {'form': form})
+            return render(request, 'new_monster.html', {'form': form})
+
+        else:
+            return redirect(reverse('main_site'))
 
     def post(self, request):
         form = MonsterForm(request.POST)
@@ -48,58 +53,3 @@ class CreateMonsterView(LoginRequiredMixin, View):  # This view is used to creat
             )
 
             return redirect(reverse('create_monster'))
-
-
-# class EditMonsterView(LoginRequiredMixin, View):  # This view is used to edit an existing monster in the database.
-#     login_url = reverse_lazy('login')
-#
-#     def get(self, request, slug):
-#         monster = Monster.objects.get(slug=slug)
-#         form = MonsterForm(initial={
-#             'name': monster.name,
-#             'level': monster.level,
-#             'strength': monster.strength,
-#             'dexterity': monster.dexterity,
-#             'endurance': monster.wisdom,
-#             'intelligence': monster.endurance,
-#             'wisdom': monster.difficult,
-#             'charisma': monster.damage_reduction,
-#             'difficult': monster.number_of_dices,
-#             'damage_reduction': monster.dice,
-#             'number_of_attacks': monster.number_of_attacks,
-#             'damage': monster.damage,
-#             'experience': monster.experience,
-#             })
-#
-#         return render(request, 'edit_monster.html', {'form': form, 'monster': monster})
-#
-#     def post(self, request, monster_id):
-#         form = MonsterForm(request.POST)
-#
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             monster = Monster.objects.get(id=monster_id)
-#
-#             monster.name = data.get('name')
-#             monster.level = data.get('level')
-#             monster.strength = data.get('strength')
-#             monster.dexterity = data.get('dexterity')
-#             monster.wisdom = data.get('wisdom')
-#             monster.endurance = data.get('endurance')
-#             monster.max_health_points = monster.endurance * 4
-#             monster.health_points = monster.max_health_points
-#             monster.difficult = data.get('difficult')
-#             monster.damage_reduction = data.get('damage_reduction')
-#             monster.number_of_dices = data.get('number_of_dices')
-#             monster.dice = data.get('dice')
-#             monster.damage_bonus = monster.strength
-#             monster.attack_bonus = monster.dexterity
-#             monster.defence_bonus = monster.wisdom
-#             monster.initiative = monster.wisdom + monster.dexterity
-#             monster_dice = int(monster.dice)
-#             monster_dice = DICE[monster_dice - 1]
-#             monster_dice = monster_dice[1]
-#             monster.damage = monster_dice * monster.number_of_dices
-#             monster.save()
-#
-#             return redirect(reverse('monster_list'))

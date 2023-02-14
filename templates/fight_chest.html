@@ -4,12 +4,17 @@ Find Chest
 {% endblock title %}
 {% block content %}
 <form method="post">{% csrf_token %}
-    <ul>
-        <li>chest info</li>
-        <li>awards info</li>
-        <li>stan konta przed {{ begin_currency }} + dodano {{ gold }} = {{ currency.gold }}</li>
-
-        <li><input type="submit" value="Continue"></li>
-    </ul>
+    <div class="fight-background">
+        <div class="pre-fight">
+            <section class="open-chest">
+                <p>You find a chest!</p>
+                <p>Your account: {{ begin_currency }} gold</p>
+                <p>Award: {{ chest.prize }} gold</p>
+                <p>Now you get total: {{ currency.gold }} gold</p>
+            </section>
+            <section>
+                <p><a href="{% url 'maze' %}">Continue</a></p>
+            </section>
+    </div>
 </form>
 {% endblock content %}

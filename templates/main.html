@@ -3,26 +3,14 @@
 main_site site
 {% endblock title %}
 {% block content %}
-<form method="post" class="main-text">{% csrf_token %}
-    <p>"Path of Hero" is a browser-based RPG game inspired by D&D. This game offers a unique and thrilling experience
-    for players who enjoy role-playing games.</p>
-
-    <p>The game's graphics are top-notch, with detailed character designs and immersive environments.</p>
-
-    <p>One of the best features of "Path of Hero" is its character customization system. Players can create their own
-        unique hero, choosing from a variety of races, classes, and skills. The character progression system is
-        well-designed, allowing players to level up their hero and acquire new abilities as they complete quests and
-        defeat enemies.</p>
-
-    <p>The game's storyline is well-written, with a compelling narrative that keeps players engaged.
-        The world of "Path of Hero" is vast and filled with secrets to uncover. Players can explore various regions,
-        complete quests, and interact with other players to advance their hero's journey.</p>
-    <p>The combat system in "Path of Hero" is turn-based, giving players time to strategize and make the best decisions
-        for their hero. The game also offers a variety of enemies, each with unique strengths and weaknesses,
-        making the battles challenging and exciting.</p>
-
-    <p>Overall, "Path of Hero" is a must-play for fans of RPG games. Its engaging storyline, character customization
-        system, and challenging combat mechanics make it a top-notch browser-based game. I highly recommend it to
-        anyone looking for a fun and immersive RPG experience.</p>
-</form>
+<div class="main-text">
+    <p>PathOfHero is a browser-based RPG game developed by <a href="{% url 'team' %}">Jan Świderski</a>  as a 2-week
+        project for the Coderslab course.</p>
+    <p>Although the game is not highly developed and visually average, it has potential for further improvement. Jan
+        used his knowledge about Python, Html, Css and an image generator to create the game.</p>
+    <p>The mechanics of character creation and combat are based on the rules of D&D 3.5, i.e. dice rolls that are
+        equally fair to the computer and the player.</p>
+    <p>Special thanks should be given to <a href="{% url 'team' %}">Konrad Torbus</a> for creating the graphics for
+        the dungeons.</p>
+</div>
 {% endblock content %}

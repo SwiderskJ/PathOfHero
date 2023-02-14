@@ -11,7 +11,6 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
 class HeroListView(LoginRequiredMixin, View):  # Displays a list of heroes belonging to the current user.
     login_url = reverse_lazy('login')
 
@@ -207,13 +206,16 @@ class AddArmorView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = ArmorAddForm()
-
-        return render(
-            request,
-            'add_armor.html',
-            context={
-                'form': form,
-            })
+        user = request.user
+        if user.is_staff:
+            return render(
+                request,
+                'add_armor.html',
+                context={
+                    'form': form,
+                })
+        else:
+            return redirect(reverse('main_site'))
 
     def post(self, request):
         form = ArmorAddForm(request.POST)
@@ -301,13 +303,16 @@ class AddWeaponView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = WeaponAddForm()
-
-        return render(
-            request,
-            'add_weapon.html',
-            context={
-                'form': form,
-            })
+        user = request.user
+        if user.is_staff:
+            return render(
+                request,
+                'add_weapon.html',
+                context={
+                    'form': form,
+                })
+        else:
+            return redirect(reverse('main_site'))
 
     def post(self, request):
         form = WeaponAddForm(request.POST)

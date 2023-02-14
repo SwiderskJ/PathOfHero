@@ -3,6 +3,29 @@
 Maze entry
 {% endblock title %}
 {% block content %}
-    text about game
-    <a href="{% url 'maze' %}">Enter</a>
+    <div class="pre-fight-background">
+        <div class="pre-fight">
+            <section class="text-entry">
+                <div>
+                    <p>In a far-off land, there was a crypt that had been sealed for centuries. Legends
+                        told of a powerful treasure that lay hidden within, guarded by a fearsome monster that had never
+                        been defeated. Many brave warriors had attempted to slay the beast and claim the treasure, but
+                        none had returned.</p>
+
+                    <p>One day, a young hero named {{ hero.name }} arrived in the nearby village. {{ hero.name }} had
+                        been trained by the best warriors in the land and had a reputation for fearlessness and cunning.
+                        When the villagers learned of {{ hero.name }} skills, they begged him to take on the mission
+                        of slaying the monster and claiming the treasure. </p>
+
+                    <p>{{ hero.name }} knew that the task ahead of him would not be easy. He had heard stories of the
+                        monster's immense size and strength, and knew that it had the power to destroy him in a single
+                        blow. Nevertheless, he was determined to complete his mission and bring peace to the village.
+                    </p>
+                </div>
+            </section>
+            <section>
+                <p><a href="{% url 'maze' %}" class="fight-button">Start your journey in maze</a></p>
+            </section>
+        </div>
+    </div>
 {% endblock content %}

@@ -1,12 +1,18 @@
 {% extends 'base_maze.html' %}
 {% block title %}
-Maze entry
+Pre fight view
 {% endblock title %}
 {% block content %}
-    <ul>
-        <li>Your hero {{ hero.name }} see something inside</li>
-        <li>Potential difficultly : {{ message }}</li>
-        <li><a href="{% url 'fight' monster.slug %}" class="fight-button">Begin fight</a></li>
-        <li><a href="{% url 'main_site' %}" class="run-away-button">Run Away</a></li>
-    </ul>
+    <div class="pre-fight-background">
+        <div class="pre-fight">
+            <section>
+                <p>Your hero {{ hero.name }} see Boss!</p>
+                <p>Difficultly : {{ message }}</p>
+            </section>
+            <section>
+                <p><a href="{% url 'fight' monster.slug %}" class="fight-button">Begin fight</a></p>
+                <p><a href="{% url 'main_site' %}" class="run-away-button">Run Away</a></p>
+            </section>
+        </div>
+    </div>
 {% endblock content %}
