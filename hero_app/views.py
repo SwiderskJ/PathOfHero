@@ -1,3 +1,5 @@
+import math
+
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -93,8 +95,8 @@ class HeroDetailView(LoginRequiredMixin, View):  # Displays the details of a spe
 
             if actual_weapon:
                 hero.damage_bonus = hero.strength_bonus + actual_weapon.damage_bonus
-                hero.attack_bonus = hero.strength_bonus + actual_weapon.attack_bonus
-                hero.number_of_attacks = int(round(hero.level / 4)) + actual_weapon.number_of_attacks
+                hero.attack_bonus = hero.level + hero.strength_bonus + actual_weapon.attack_bonus
+                hero.number_of_attacks = (math.ceil(hero.level / 4)) + actual_weapon.number_of_attacks
                 hero.damage = actual_weapon.damage
 
         hero.save()

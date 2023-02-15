@@ -345,14 +345,14 @@ class FightView(LoginRequiredMixin, View):  # Class-based view for handling a fi
                 break
 
             monster_damage = 0
-            item = 0
-            while item < monster.number_of_attacks:
+            item = 1
+            while item <= monster.number_of_attacks:
                 monster_damage += dice(monster.damage) + monster.damage_bonus
                 item += 1
 
             hero_damage = 0
-            item = 0
-            while item == hero.number_of_attacks:
+            item = 1
+            while item <= hero.number_of_attacks:
                 hero_damage += dice(hero.damage) + hero.damage_bonus
                 item += 1
 
