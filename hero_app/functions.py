@@ -148,11 +148,10 @@ def create_hero(hero):
 
     hero.attack_bonus = hero.level + hero.strength_bonus
     hero.defence_bonus = hero.level + hero.dexterity_bonus
-    hero.initiative = round((hero.intelligence_bonus + hero.wisdom_bonus + hero.charisma_bonus) / 3)
+    hero.initiative = math.ceil((hero.intelligence_bonus + hero.wisdom_bonus + hero.charisma_bonus) / 3)
     hero.damage_bonus = hero.strength_bonus
     hero.damage = 3
-    numbers_of_attacks = int(round(hero.level / 4))
+    numbers_of_attacks = int(math.ceil(hero.level / 4))
     if numbers_of_attacks < 1:
         numbers_of_attacks = 1
-    hero.number_of_attacks = int(round(hero.level / 4))
     hero.save()
