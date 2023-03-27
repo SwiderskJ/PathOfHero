@@ -84,8 +84,6 @@ class UserCreateView(View):  # This view is responsible for handling user regist
 
         if form.is_valid():
             data = form.cleaned_data
-            if User.objects.filter(username=data.get('login')):
-                return redirect(reverse('register'))
 
             user = User.objects.create_user(
                 username=data.get('login'),
