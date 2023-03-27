@@ -86,12 +86,9 @@ WSGI_APPLICATION = 'PathOfHero.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'PathOfHero_db',
-        'HOST': 'localhost',
-        'PASSWORD': 'coderslab',
-        'USER': 'postgres',
+    "default": {
+        "ENGINE": 'django.db.backends.sqlite3',
+        "NAME": BASE_DIR / 'db.sqlite3'
     }
 }
 
