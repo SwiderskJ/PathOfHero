@@ -84,6 +84,8 @@ class UserCreateView(View):  # This view is responsible for handling user regist
 
         if form.is_valid():
             data = form.cleaned_data
+            if User.objects.get(username=data.get('login')):
+                return redirect(reverse('register'))
 
             user = User.objects.create_user(
                 username=data.get('login'),
@@ -102,16 +104,24 @@ class UserCreateView(View):  # This view is responsible for handling user regist
 
 
 class AboutView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class TeamView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class BankAccountView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class SettingsView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
