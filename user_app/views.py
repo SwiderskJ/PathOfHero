@@ -102,16 +102,24 @@ class UserCreateView(View):  # This view is responsible for handling user regist
 
 
 class AboutView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class TeamView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class BankAccountView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
 
 
 class SettingsView(View):
-    pass
+
+    def get(self, request):
+        return redirect(reverse('main_site'))
